@@ -25,7 +25,7 @@
 
 **Milestone:** M0
 **Priority:** P0
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A
 **Objective:** Agree student-facing API contracts before implementation.

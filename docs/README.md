@@ -3,6 +3,7 @@
 ## Authoritative documents
 
 - [System design](./system_design.md) — product, architecture, domain modules, lifecycle, entities, API, security, status.
+- [Student API contracts](./student-api-contracts.md) — proposed student-facing API contracts.
 - [Developer tickets](./tickets/README.md) — ticket index, ownership, workflow, dependencies.
 
 ## Implementation status legend
