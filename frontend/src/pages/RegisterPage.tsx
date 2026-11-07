@@ -7,7 +7,6 @@ import type { User, UserRole } from '../types'
 interface AuthResponse {
   data: {
     user: User
-    token: string
   }
 }
 
@@ -17,10 +16,9 @@ export function RegisterPage() {
 
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
-  const [institutionCode, setInstitutionCode] = useState('')
+  const [institutionCode] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [role, setRole] = useState<UserRole>('student')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -48,11 +46,10 @@ export function RegisterPage() {
           email,
           institutionCode,
           password,
-          role,
         }),
       })
 
-      login(response.data.user, response.data.token)
+      login(response.data.user)
 
       const destinations: Record<UserRole, string> = {
         student: '/student',
@@ -87,14 +84,6 @@ export function RegisterPage() {
         <div>
           <label className="mb-1 block text-sm font-medium">Email address</label>
           <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-md border border-slate-300 px-3 py-2" placeholder="you@university.ac.ke" />
-        </div>
-
-        <div>
-          <label className="mb-1 block text-sm font-medium">Account role</label>
-          <select value={role} onChange={(e) => setRole(e.target.value as UserRole)} className="w-full rounded-md border border-slate-300 px-3 py-2">
-            <option value="student">Student</option>
-            <option value="lecturer">Lecturer</option>
-          </select>
         </div>
 
         <div>

@@ -9,6 +9,7 @@ export async function apiRequest<T>(
 
   const response = await fetch(`${env.apiUrl}${path}`, {
     ...init,
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),

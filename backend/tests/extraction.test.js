@@ -13,6 +13,7 @@ let userId
 
 async function resetDb() {
   await pool.query('DELETE FROM audit_logs')
+  await pool.query('DELETE FROM academic_events')
   await pool.query('DELETE FROM extracted_claims')
   await pool.query('DELETE FROM processing_jobs')
   await pool.query('DELETE FROM source_documents')

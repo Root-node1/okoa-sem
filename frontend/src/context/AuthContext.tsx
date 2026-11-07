@@ -6,12 +6,12 @@ import {
 } from 'react'
 import type { ReactNode } from 'react'
 import type { User } from '../types'
+import { env } from '../utils/env'
 
 interface AuthContextValue {
   user: User | null
-  token: string | null
   loading: boolean
-  login: (user: User, token: string) => void
+  login: (user: User) => void
   logout: () => void
 }
 
@@ -19,42 +19,51 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
-  const [token, setToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('okoa_user')
-    const savedToken = localStorage.getItem('okoa_token')
+    let active = true
 
-    if (savedUser && savedToken) {
+    async function restoreSession() {
       try {
-        setUser(JSON.parse(savedUser) as User)
-        setToken(savedToken)
+        const response = await fetch(`${env.apiUrl}/auth/me`, {
+          credentials: 'include',
+        })
+
+        if (response.ok) {
+          const payload = (await response.json()) as { data: User }
+          if (active) setUser(payload.data)
+        } else {
+          if (active) setUser(null)
+        }
       } catch {
-        localStorage.removeItem('okoa_user')
-        localStorage.removeItem('okoa_token')
+        if (active) setUser(null)
+      } finally {
+        if (active) setLoading(false)
       }
     }
 
-    setLoading(false)
+    void restoreSession()
+
+    return () => {
+      active = false
+    }
   }, [])
 
-  const login = (newUser: User, newToken: string) => {
-    localStorage.setItem('okoa_user', JSON.stringify(newUser))
-    localStorage.setItem('okoa_token', newToken)
+  const login = (newUser: User) => {
     setUser(newUser)
-    setToken(newToken)
   }
 
   const logout = () => {
-    localStorage.removeItem('okoa_user')
-    localStorage.removeItem('okoa_token')
     setUser(null)
-    setToken(null)
+    void fetch(`${env.apiUrl}/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    })
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   )

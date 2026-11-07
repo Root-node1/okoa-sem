@@ -4,7 +4,7 @@ function cookieOptions() {
   return {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     path: '/',
     maxAge: 7 * 24 * 60 * 60 * 1000,
   }
@@ -51,7 +51,12 @@ export async function logout(req, res, next) {
   try {
     const token = req.cookies?.okoa_session
     await service.logout(token)
-    res.clearCookie('okoa_session', { path: '/' })
+    res.clearCookie('okoa_session', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      path: '/',
+    })
     res.status(204).send()
   } catch (err) {
     next(err)

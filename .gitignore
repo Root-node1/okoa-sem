@@ -17,9 +17,5 @@ tmp/
 .DS_Store
 *.pem
 *.tsbuildinfo
-<<<<<<<<< Temporary merge branch 1
-
-.wrangler/
-=========
 .vercel/
->>>>>>>>> Temporary merge branch 2
+.wrangler/

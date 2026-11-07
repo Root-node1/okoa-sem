@@ -8,7 +8,6 @@ import type { User } from '../types'
 interface AuthResponse {
   data: {
     user: User
-    token: string
   }
 }
 
@@ -39,7 +38,7 @@ export function LoginPage() {
         body: JSON.stringify({ email, password }),
       })
 
-      login(response.data.user, response.data.token)
+      login(response.data.user)
 
       const from = location.state?.from?.pathname
       navigate(from || destinations[response.data.user.role], {
