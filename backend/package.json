@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "test": "NODE_ENV=test node --test"
+    "test": "NODE_ENV=test node --test --test-concurrency=1",
+    "migrate": "node scripts/migrate.js"
   },
   "dependencies": {
     "argon2": "^0.45.2",

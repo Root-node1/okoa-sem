@@ -18,6 +18,9 @@ export const env = {
 
 export function validateEnv() {
   if (!env.databaseUrl) {
+    if (env.nodeEnv === 'test') {
+      throw new Error('DATABASE_URL is required to run the backend test suite.')
+    }
     console.warn('DATABASE_URL is not set; database health check will fail.')
   }
 }
