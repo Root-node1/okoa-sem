@@ -9,6 +9,7 @@ import { authenticate } from './middleware/auth.js'
 import { validateEnv } from './config/env.js'
 import healthRoutes from './routes/health.js'
 import authRoutes from './modules/auth/auth.routes.js'
+import claimsRoutes from './modules/claims/claims.routes.js'
 
 validateEnv()
 
@@ -29,6 +30,7 @@ app.use(authenticate)
 
 app.use('/api/v1', healthRoutes)
 app.use('/api/v1/auth', authRoutes)
+app.use('/api/v1/claims', claimsRoutes)
 
 app.use((_req, res) => {
   res.status(404).json({ error: { code: 'NOT_FOUND', message: 'Route not found' } })

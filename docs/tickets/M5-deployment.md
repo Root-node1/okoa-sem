@@ -46,7 +46,7 @@
 
 **Milestone:** M5
 **Priority:** P1
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A, B, C
 **Objective:** Document and configure production env vars.
@@ -67,7 +67,7 @@
 
 **Milestone:** M5
 **Priority:** P1
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A, B
 **Objective:** Configure migration deployment.
@@ -88,7 +88,7 @@
 
 **Milestone:** M5
 **Priority:** P2
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** B, C
 **Objective:** Configure Cloudinary for production.
@@ -109,7 +109,7 @@
 
 **Milestone:** M5
 **Priority:** P1
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A, B, C
 **Objective:** Verify CI/CD pipeline.
@@ -130,7 +130,7 @@
 
 **Milestone:** M5
 **Priority:** P2
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A, B
 **Objective:** Add logging and monitoring.
@@ -151,7 +151,7 @@
 
 **Milestone:** M5
 **Priority:** P2
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A, B
 **Objective:** Document and test backup/recovery.
@@ -172,7 +172,7 @@
 
 **Milestone:** M5
 **Priority:** P1
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A, B, C
 **Objective:** Perform security review.
@@ -193,7 +193,7 @@
 
 **Milestone:** M5
 **Priority:** P1
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A, B, C
 **Objective:** Run production smoke tests.
