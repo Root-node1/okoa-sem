@@ -1,36 +1,19 @@
-# Documentation Index — Okoa Sem
+# Okoa Sem Documentation
 
-Status: Proposed
+## Retained documentation
 
-## Core
+- [Backend architecture](./ARCHITECTURE.md) — system design, decisions, data model, security, API conventions, roles, implementation status.
+- [Developer tickets](./tickets/README.md) — ticket index, roadmap, ownership, dependencies.
 
-- [System Design](./SYSTEM_DESIGN.md)
-- [Architecture Decisions](./ARCHITECTURE_DECISIONS.md)
-- [Design](./DESIGN.md)
-- [Data Model](./DATA_MODEL.md)
-- [API Design](./API_DESIGN.md)
-- [AI Architecture](./AI_ARCHITECTURE.md)
-- [Agent Design](./AGENT_DESIGN.md)
-- [Academic Information Lifecycle](./ACADEMIC_INFORMATION_LIFECYCLE.md)
+## Implementation status legend
 
-## Security & Quality
+- **IMPLEMENTED**: exists in code and is verified by tests or build.
+- **APPROVED**: agreed design or contract not yet coded.
+- **PROPOSED**: candidate requiring a decision.
+- **NOT YET IMPLEMENTED**: planned but not started.
 
-- [Security](./SECURITY.md)
-- [Privacy and Data Governance](./PRIVACY_AND_DATA_GOVERNANCE.md)
-- [Testing Strategy](./TESTING_STRATEGY.md)
+## Other retained assets
 
-## Execution
-
-- [Implementation](./IMPLEMENTATION.md)
-- [Implementation Tasks](./IMPLEMENTATION_TASKS.md)
-- [Team Workflow](./TEAM_WORKFLOW.md)
-- [Development Guidelines](./DEVELOPMENT_GUIDELINES.md)
-- [Deployment](./DEPLOYMENT.md)
-- [Project Roadmap](./PROJECT_ROADMAP.md)
-- [Risks and Assumptions](./RISKS_AND_ASSUMPTIONS.md)
-- [Glossary](./GLOSSARY.md)
-- [Integration Contracts](./INTEGRATION_CONTRACTS.md)
-- [Open Questions](./OPEN_QUESTIONS.md)
-- [Frontend Integration](./FRONTEND_INTEGRATION.md)
-- [Frontend Auth Examples](./examples/frontend-auth-integration.md)
-- [Documentation Status](./DOCUMENTATION_STATUS.md)
+- PostgreSQL migrations: `backend/migrations/`
+- Postman collection: `docs/postman/`
+- CI workflow: `.github/workflows/ci.yml`
