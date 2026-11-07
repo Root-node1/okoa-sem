@@ -12,17 +12,15 @@ Related: [Privacy](./PRIVACY_AND_DATA_GOVERNANCE.md), [System Design](./SYSTEM_D
 
 ## 2. Authorisation
 
-- RBAC: student, lecturer, class_rep, institution_admin, system.
+- RBAC: student, class_rep, lecturer.
 - Server-side enforcement in service layer.
 - Tenant isolation by institution_id and enrolment.
 
 ## 3. Role boundaries
 
-- Students: read own enrolled data; submit ingestion; create reminders; verify only own? (no verification of academic events)
-- Class rep: submit claims; cannot verify deadlines.
-- Lecturer: verify events for own courses; create assignments.
-- Institution admin: manage institution data; view audit.
-- System: background jobs only, scoped.
+- Students: read own enrolled data; submit ingestion; create reminders.
+- Class rep: submit claims; cannot verify deadlines; helps identify conflicts.
+- Lecturer: verify events for own courses; create assignments; publish announcements.
 
 ## 4. Data isolation
 

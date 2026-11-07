@@ -47,5 +47,5 @@ Status: Proposed
 Event types: `cat, exam, assignment, lecture, meeting, deadline, venue_change, announcement, material, instruction`.
 Claim status: `pending, approved, rejected, merged, failed`.
 Event status: `draft, verified, superseded, cancelled`.
-Roles: `student, lecturer, class_rep, institution_admin, system`.
+Roles: `student, class_rep, lecturer`.
 Processing status: `pending, processing, completed, failed`.

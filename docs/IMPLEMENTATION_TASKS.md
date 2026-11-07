@@ -7,7 +7,7 @@ Owner legend: PL=Product Lead, FE=Frontend, BE=Backend, AI=AI/Agent, DO=DevOps/Q
 
 | ID | Milestone | Description | Owner (A) | Contributors | Deps | Priority | Complexity | Modules | Acceptance | Tests |
 |---|---|---|---|---|---|---|---|---|---|---|
-| T-000 | M0 | Initialize Node.js + TypeScript + Express backend | DO | BE | - | High | S | backend | build passes | smoke |
+| T-000 | M0 | Initialize Node.js + JavaScript + Express backend | DO | BE | - | High | S | backend | build passes | smoke |
 | T-001 | M0 | Initialize Next.js TS app with App Router | DO | FE | - | High | S | app | build passes | smoke |
 | T-002 | M0 | Configure ESLint/Prettier/TS strict | DO | all | T-001 | High | S | tooling | lint passes | - |
 | T-003 | M0 | Env config + `.env.example` | DO | BE | T-001 | High | S | config | app boots | - |
@@ -23,7 +23,7 @@ Owner legend: PL=Product Lead, FE=Frontend, BE=Backend, AI=AI/Agent, DO=DevOps/Q
 | T-101 | M1 | Auth module (register/login/logout/me) | BE | FE | T-005 | High | M | auth | auth flows work | API |
 | T-102 | M1 | RBAC middleware + permission helpers | BE | - | T-101 | High | M | auth | roles enforced | unit |
 | T-103 | M1 | Tenant isolation helpers | BE | - | T-102 | High | M | auth/db | cross-tenant denied | integration |
-| T-104 | M1 | Institution admin CRUD | BE | FE | T-101 | Medium | M | institutions | admin manages | API |
+| T-104 | M1 | Institution and course context setup | BE | FE | T-101 | Medium | M | institutions | context configured | API |
 | T-105 | M1 | Course & offering management | BE | FE | T-104 | High | M | academic | CRUD works | API |
 | T-106 | M1 | Enrolment flows | BE | FE | T-105 | High | M | academic | student enrols | E2E |
 | T-107 | M1 | Auth screens UI | FE | DX | T-101 | High | M | ui | login/register | E2E |

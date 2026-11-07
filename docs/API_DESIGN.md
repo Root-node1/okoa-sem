@@ -6,7 +6,7 @@ Related: [System Design](./SYSTEM_DESIGN.md), [Data Model](./DATA_MODEL.md), [In
 ## 1. Architecture
 
 - Frontend: Next.js.
-- Backend: Node.js + TypeScript + Express REST API.
+- Backend: Node.js + JavaScript (ES modules) + Express REST API.
 - Base path: `/api/v1`.
 - Frontend communicates only through documented API contracts.
 

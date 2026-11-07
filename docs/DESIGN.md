@@ -16,7 +16,6 @@ Related: [System Design](./SYSTEM_DESIGN.md), [Implementation](./IMPLEMENTATION.
 - Student (primary): busy, mobile-first, needs deadlines and changes.
 - Lecturer: needs efficient publishing and verification.
 - Class representative: bridges communication; needs low-friction submission.
-- Institution admin: setup and oversight.
 
 ## 3. User journeys
 
