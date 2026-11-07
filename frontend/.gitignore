@@ -1,0 +1,3 @@
+.next/
+.eslintcache
+!next-env.d.ts

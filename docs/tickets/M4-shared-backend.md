@@ -67,7 +67,7 @@
 
 **Milestone:** M4
 **Priority:** P0
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** B
 **Objective:** Implement verification service.

@@ -8,6 +8,7 @@
 - [Frontend API contracts](./frontend-api-contracts.md) — proposed frontend integration contracts.
 - [Authorization boundaries](./authorization-boundaries.md) — proposed authorization model.
 - [Integration test strategy](./integration-test-strategy.md) — proposed testing strategy.
+- [Deployment readiness](./deployment-readiness.md) — deployment and operations readiness.
 - [Developer tickets](./tickets/README.md) — ticket index, ownership, workflow, dependencies.
 
 ## Implementation status legend
