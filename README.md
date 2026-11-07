@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Okoa Sem
 
-## Getting Started
+Academic Coordination Intelligence Platform.
 
-First, run the development server:
+Okoa Sem turns fragmented academic communication into reliable, traceable academic information and coordination. AI proposes information; the backend validates it; humans verify it before it becomes authoritative.
+
+## Stack
+
+- Frontend: React, TypeScript, Vite, Tailwind CSS, React Router
+- Backend: Node.js, Express, JavaScript ES modules, PostgreSQL (`pg`), Zod
+- Authentication: server-managed opaque sessions, Argon2id password hashing
+- File storage: Cloudinary (foundation implemented)
+- CI: GitHub Actions
+
+## Run locally
+
+Prerequisites: Node.js 22+, PostgreSQL 16+.
+
+1. Install dependencies:
+
+```bash
+npm install
+npm --prefix backend install
+npm --prefix frontend install
+```
+
+2. Configure environment:
+
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
+
+Set `DATABASE_URL` in `backend/.env`.
+
+3. Run migrations:
+
+```bash
+npm --prefix backend run migrate
+```
+
+4. Start both apps:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Frontend: http://localhost:5173
+- Backend: http://localhost:5000
+- Health: http://localhost:5000/api/v1/health
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tests
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Backend:
 
-## Learn More
+```bash
+cd backend && NODE_ENV=test npm test
+```
 
-To learn more about Next.js, take a look at the following resources:
+Requires a running PostgreSQL database configured by `DATABASE_URL`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Frontend build:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm --prefix frontend run build
+```
 
-## Deploy on Vercel
+## Documentation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Documentation index](./docs/README.md)
+- [Backend architecture](./docs/system_design.md)
+- [Developer tickets](./docs/tickets/README.md)

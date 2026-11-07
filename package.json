@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "dev:backend": "npm --prefix backend run dev",
+    "test:backend": "npm --prefix backend test"
   },
   "dependencies": {
     "clsx": "^2.1.1",
