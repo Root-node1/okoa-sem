@@ -72,3 +72,44 @@ Watch paths recommendation:
 - `frontend/**`
 - Do not trigger frontend builds for `backend/**` or documentation-only changes.
 - Root-level package files do not affect the frontend build in this repository.
+
+
+## Docker (backend)
+
+Build:
+
+```bash
+cd backend
+docker build -t okoa-sem-backend:latest .
+```
+
+Run locally:
+
+```bash
+cd backend
+docker compose up --build
+```
+
+Run migrations separately:
+
+```bash
+cd backend
+docker compose run --rm backend npm run migrate
+```
+
+Container details:
+- Base image: `node:22-alpine`
+- Port: `5000`
+- Health check: `GET /api/v1/health`
+- Non-root user: `node`
+- Production dependencies only
+- Listen address: `0.0.0.0`
+
+Rumpty Cloud needs:
+- Container image in a registry.
+- `DATABASE_URL` for a persistent PostgreSQL database.
+- `FRONTEND_URL` set to the Cloudflare frontend origin.
+- `AUTH_SECRET` and optional Cloudinary variables.
+- Port `5000` and health check path `/api/v1/health`.
+- A separate migration step before or during deployment.
+- Persistent database storage; containers must not store database data locally.

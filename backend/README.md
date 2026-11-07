@@ -28,3 +28,35 @@ See `backend/.env.example`. Required: `DATABASE_URL`. `NODE_ENV=test` for tests.
 - `npm start` — production start
 - `npm test` — run tests (requires PostgreSQL)
 - `npm run migrate` — apply migrations
+
+## Docker
+
+Build the image:
+
+```bash
+docker build -t okoa-sem-backend:latest .
+```
+
+Run locally with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+Run migrations as a separate step:
+
+```bash
+docker compose run --rm backend npm run migrate
+```
+
+Required production environment variables:
+- `PORT`
+- `NODE_ENV=production`
+- `DATABASE_URL`
+- `FRONTEND_URL`
+- `AUTH_SECRET`
+- Cloudinary variables if file storage is enabled
+
+The container listens on `0.0.0.0:5000`. Health check path: `/api/v1/health`.
+
+Do not bake secrets into the image.
