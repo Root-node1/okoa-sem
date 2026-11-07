@@ -90,15 +90,9 @@ export function RegisterPage() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium">Institution code</label>
-          <input required value={institutionCode} onChange={(e) => setInstitutionCode(e.target.value)} className="w-full rounded-md border border-slate-300 px-3 py-2" placeholder="Institution code" />
-        </div>
-
-        <div>
           <label className="mb-1 block text-sm font-medium">Account role</label>
           <select value={role} onChange={(e) => setRole(e.target.value as UserRole)} className="w-full rounded-md border border-slate-300 px-3 py-2">
             <option value="student">Student</option>
-            <option value="class_rep">Class Representative</option>
             <option value="lecturer">Lecturer</option>
           </select>
         </div>
