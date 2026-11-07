@@ -1,12 +1,16 @@
-import { claimNextJob, completeJob, failJob, getJobBySource } from '../modules/jobs/jobRepository.js'
+import { claimNextJob, completeJob, failJob } from '../modules/jobs/jobRepository.js'
 import { updateSourceStatus } from '../modules/sources/source.repository.js'
+import { runExtraction } from '../modules/extraction/extraction.service.js'
 
 const DEFAULT_POLL_INTERVAL_MS = 2000
 
 export async function processJob(job, processor) {
   await updateSourceStatus(job.source_id, 'processing')
   try {
-    await processor(job)
+    const result = await processor(job)
+    if (result?.failed) {
+      throw new Error(result.reason ?? 'Processing failed')
+    }
     await completeJob(job.id)
     await updateSourceStatus(job.source_id, 'completed')
   } catch (err) {
@@ -49,12 +53,12 @@ export function startWorker({ processor, pollIntervalMs = DEFAULT_POLL_INTERVAL_
   }
 }
 
-async function defaultProcessor() {
-  throw new Error('Extraction processor is not configured')
+async function extractionProcessor(job) {
+  return runExtraction(job.source_id)
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const worker = startWorker({ processor: defaultProcessor })
+  const worker = startWorker({ processor: extractionProcessor })
   const shutdown = () => {
     worker.stop()
     process.exit(0)
