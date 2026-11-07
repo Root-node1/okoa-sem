@@ -5,6 +5,7 @@
 - [System design](./system_design.md) — product, architecture, domain modules, lifecycle, entities, API, security, status.
 - [Student API contracts](./student-api-contracts.md) — proposed student-facing API contracts.
 - [Source and extraction contracts](./source-extraction-contracts.md) — proposed source, claim and extraction contracts.
+- [Frontend API contracts](./frontend-api-contracts.md) — proposed frontend integration contracts.
 - [Developer tickets](./tickets/README.md) — ticket index, ownership, workflow, dependencies.
 
 ## Implementation status legend

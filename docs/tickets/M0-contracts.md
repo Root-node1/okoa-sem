@@ -67,7 +67,7 @@
 
 **Milestone:** M0
 **Priority:** P0
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** C
 **Objective:** Agree frontend API interfaces and TypeScript types.
