@@ -46,7 +46,7 @@
 
 **Milestone:** M0
 **Priority:** P0
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** B
 **Objective:** Agree source, processing and extracted claim contracts.
