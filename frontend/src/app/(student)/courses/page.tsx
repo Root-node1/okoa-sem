@@ -23,7 +23,7 @@ export default function CoursesPage() {
           </Link>
         })}
       </section>
-      <div className="info-note"><Icon name="book" /><p>Only courses you're enrolled in appear here. Need to change your enrolment? Contact your institution administrator.</p></div>
+      <div className="info-note"><Icon name="book" /><p>Only courses you&apos;re enrolled in appear here. Need to change your enrolment? Contact your institution administrator.</p></div>
     </div>
   )
 }

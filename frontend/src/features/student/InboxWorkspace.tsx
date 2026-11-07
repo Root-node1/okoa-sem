@@ -60,7 +60,7 @@ export function InboxWorkspace() {
       </section>
       <section className="content-panel">
         <div className="section-heading"><div><span className="eyebrow">NEEDS A LOOK</span><h2>Items to review</h2></div><span className="subtle-count">2 pending</span></div>
-        <div className="claim-teasers">{initialClaims.filter((item) => item.status !== 'Verified').map((item) => <article className="claim-teaser" key={item.id}><div className="claim-top"><strong>{item.courseCode}</strong><StatusBadge tone={item.status === 'Needs attention' ? 'amber' : 'blue'}>{item.status}</StatusBadge></div><h3>{item.title}</h3><p>{item.source}<span>·</span>{item.submittedAt}</p><div className="unverified-note"><span className="unverified-icon">i</span>This is unverified and won't appear as a confirmed event.</div></article>)}</div>
+        <div className="claim-teasers">{initialClaims.filter((item) => item.status !== 'Verified').map((item) => <article className="claim-teaser" key={item.id}><div className="claim-top"><strong>{item.courseCode}</strong><StatusBadge tone={item.status === 'Needs attention' ? 'amber' : 'blue'}>{item.status}</StatusBadge></div><h3>{item.title}</h3><p>{item.source}<span>·</span>{item.submittedAt}</p><div className="unverified-note"><span className="unverified-icon">i</span>This is unverified and won&apos;t appear as a confirmed event.</div></article>)}</div>
         <div className="permission-note"><Icon name="check" /><span>Only authorised course staff can verify or resolve academic information.</span></div>
       </section>
     </div> : <section aria-label="Your shared information" className="content-panel shared-claims">

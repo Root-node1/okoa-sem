@@ -16,10 +16,11 @@ const navigation = [
 
 export function StudentShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
+  const currentPath = pathname ?? '/'
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const links = navigation.map((item) => {
-    const active = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(`${item.href}/`))
+    const active = currentPath === item.href || (item.href !== '/dashboard' && currentPath.startsWith(`${item.href}/`))
     return (
       <Link
         aria-current={active ? 'page' : undefined}
@@ -70,7 +71,7 @@ export function StudentShell({ children }: { children: ReactNode }) {
           <button aria-label="Open navigation" className="icon-button mobile-menu" onClick={() => setMobileOpen(true)}>
             <Icon name="menu" />
           </button>
-          <div className="breadcrumb"><span>Student space</span><Icon name="chevron" /><strong>{getPageName(pathname)}</strong></div>
+          <div className="breadcrumb"><span>Student space</span><Icon name="chevron" /><strong>{getPageName(currentPath)}</strong></div>
           <div className="topbar-actions">
             <Link aria-label="Open inbox, 3 unread" className="icon-button notification-button" href="/inbox">
               <Icon name="bell" /><span className="notification-dot" />
@@ -83,7 +84,7 @@ export function StudentShell({ children }: { children: ReactNode }) {
       </div>
       <nav aria-label="Mobile navigation" className="mobile-tabs">
         {navigation.slice(0, 4).map((item) => {
-          const active = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(`${item.href}/`))
+          const active = currentPath === item.href || (item.href !== '/dashboard' && currentPath.startsWith(`${item.href}/`))
           return <Link aria-current={active ? 'page' : undefined} className={active ? 'mobile-tab active' : 'mobile-tab'} href={item.href} key={item.href}>
             <Icon name={item.icon} /><span>{item.label}</span>
           </Link>

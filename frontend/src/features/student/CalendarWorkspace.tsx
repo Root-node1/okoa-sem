@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { Icon } from '@/components/ui/Icon'
 import { StatusBadge } from '@/components/student/StatusBadge'
 import { events, formatDate } from './demo-data'
 import type { AcademicEvent } from './types'
@@ -15,9 +16,7 @@ export function CalendarWorkspace() {
   const monthLabel = month.toLocaleDateString('en-KE', { month: 'long', year: 'numeric' })
 
   const eventsForDay = (date: string) => currentEvents.filter((event) => event.date === date)
-  const dateList = view === 'Week'
-    ? Array.from({ length: 7 }, (_, index) => addDays(selectedDate, index - new Date(`${selectedDate}T12:00:00`).getDay() + 1))
-    : []
+  const dateList = view === 'Week' ? getWeekDates(selectedDate) : []
 
   function moveMonth(amount: number) {
     setMonth((current) => new Date(current.getFullYear(), current.getMonth() + amount, 1))
@@ -86,5 +85,11 @@ function AgendaView({ items }: { items: AcademicEvent[] }) {
 function addDays(date: string, offset: number) {
   const result = new Date(`${date}T12:00:00`)
   result.setDate(result.getDate() + offset)
-  return result.toISOString().slice(0, 10)
+  return `${result.getFullYear()}-${String(result.getMonth() + 1).padStart(2, '0')}-${String(result.getDate()).padStart(2, '0')}`
+}
+
+function getWeekDates(date: string) {
+  const weekday = new Date(`${date}T12:00:00`).getDay()
+  const mondayOffset = (weekday + 6) % 7
+  return Array.from({ length: 7 }, (_, index) => addDays(date, index - mondayOffset))
 }
