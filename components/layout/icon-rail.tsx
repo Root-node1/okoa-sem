@@ -1,0 +1,138 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useAuthRole } from "@/hooks/use-auth-role";
+import {
+  LayoutDashboard,
+  BookOpen,
+  Inbox,
+  CalendarDays,
+  CheckSquare,
+  Sparkles,
+  Settings,
+  ArrowRightLeft,
+} from "lucide-react";
+
+export function IconRail() {
+  const pathname = usePathname();
+  const { user, role, toggleRole, isStudent } = useAuthRole();
+
+  const navItems = [
+    {
+      href: "/",
+      icon: LayoutDashboard,
+      label: isStudent ? "Academic Overview" : "Teaching Overview",
+    },
+    {
+      href: "/inbox",
+      icon: Inbox,
+      label: isStudent ? "Academic Inbox" : "Claim Verification",
+    },
+    {
+      href: "/units",
+      icon: BookOpen,
+      label: isStudent ? "My Courses" : "Managed Units",
+    },
+    {
+      href: "/calendar",
+      icon: CalendarDays,
+      label: "Academic Calendar",
+    },
+    {
+      href: "/tasks",
+      icon: CheckSquare,
+      label: isStudent ? "Tasks & Deadlines" : "Assignments",
+    },
+    {
+      href: "/assistant",
+      icon: Sparkles,
+      label: "Course Assistant",
+    },
+  ];
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+  };
+
+  return (
+    <aside className="w-16 h-full flex-shrink-0 bg-surface-1 border-r border-border-subtle flex flex-col items-center justify-between py-3.5 z-30 select-none">
+      {/* Top Identity & Primary Nav */}
+      <div className="flex flex-col items-center gap-5 w-full">
+        {/* Brand Crest */}
+        <Link
+          href="/"
+          className="h-10 w-10 rounded-lg bg-surface-2 border border-border-strong flex items-center justify-center font-serif-display font-semibold text-lg text-txt-main hover:bg-surface-3 transition-colors"
+          title="Okoa Sem | MCS Coordination Platform"
+        >
+          O
+        </Link>
+
+        {/* Navigation Items */}
+        <nav className="flex flex-col gap-1.5 w-full px-2">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.href);
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                title={item.label}
+                className={`relative h-10 w-full rounded-md flex items-center justify-center transition-all ${
+                  isActive
+                    ? "bg-surface-2 text-txt-main font-medium border border-border-strong"
+                    : "text-txt-muted hover:text-txt-main hover:bg-surface-2"
+                }`}
+              >
+                <Icon size={17} strokeWidth={isActive ? 2 : 1.7} />
+                {isActive && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-txt-main rounded-r" />
+                )}
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* Bottom Shortcuts */}
+      <div className="flex flex-col items-center gap-2.5 w-full px-2">
+        <button
+          onClick={toggleRole}
+          title={`Switch role (Currently: ${role})`}
+          className="h-9 w-9 rounded-md flex items-center justify-center text-txt-muted hover:text-txt-main hover:bg-surface-2 transition-colors"
+        >
+          <ArrowRightLeft size={16} />
+        </button>
+
+        <Link
+          href="/settings"
+          title="Settings"
+          className={`h-9 w-9 rounded-md flex items-center justify-center transition-colors ${
+            pathname.startsWith("/settings")
+              ? "bg-surface-2 text-txt-main border border-border-strong"
+              : "text-txt-muted hover:text-txt-main hover:bg-surface-2"
+          }`}
+        >
+          <Settings size={16} />
+        </Link>
+
+        <button
+          onClick={toggleRole}
+          title={`${user.name} (${role}) - Click to toggle role`}
+          className="w-8 h-8 rounded-full bg-surface-2 border border-border-strong flex items-center justify-center text-[11px] font-mono-code font-medium text-txt-main cursor-pointer hover:border-txt-main transition-colors mt-1"
+        >
+          {getInitials(user.name)}
+        </button>
+      </div>
+    </aside>
+  );
+}

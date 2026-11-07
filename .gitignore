@@ -1,7 +1,13 @@
 node_modules/
+.pnp
+.pnp.*
+
+# Environment files
 .env
 .env.*
 !.env.example
+
+# Build and test output
 dist/
 build/
 coverage/
@@ -9,7 +15,11 @@ logs/
 *.log
 tmp/
 .DS_Store
-
+*.pem
 *.tsbuildinfo
+<<<<<<<<< Temporary merge branch 1
 
 .wrangler/
+=========
+.vercel/
+>>>>>>>>> Temporary merge branch 2
