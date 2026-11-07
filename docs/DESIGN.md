@@ -21,7 +21,9 @@ Related: [System Design](./SYSTEM_DESIGN.md), [Implementation](./IMPLEMENTATION.
 
 ### Student MVP journey
 
-Register -> set courses -> paste/upload academic info -> AI extracts -> verify -> dashboard/calendar update -> reminder -> assistant query.
+Register -> set courses -> paste/upload academic info -> AI extracts pending claims -> track processing and verification outcome -> verified records appear on dashboard/calendar -> reminder -> assistant query.
+
+Students can submit information and view permitted claim status/evidence, but do not approve, reject, merge, or verify claims/events. Authorised staff perform verification; pending claims remain labelled unverified.
 
 ### Lecturer journey
 
@@ -45,7 +47,7 @@ Top-level: Dashboard, Courses, Inbox, Calendar, Assignments, Assistant, Settings
 Dashboard cards: Today's focus, Upcoming deadlines (7 days), Recent changes, Unverified items, Quick actions.
 Course workspace: events, assignments, materials, announcements.
 Inbox: extracted claims, notifications, conflicts.
-Calendar: month/week/day with event types colour-coded.
+Calendar: month/week/agenda with verified event types colour-coded. Pending claims are shown as unverified items in the inbox, not as verified calendar events.
 
 ## 7. Lecturer experience
 

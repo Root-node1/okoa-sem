@@ -80,6 +80,7 @@ Status codes: 200, 201, 202, 204, 400, 401, 403, 404, 409, 422, 429, 500.
 ### Academic profile
 - `GET /me/profile`
 - `PATCH /me/profile`
+- `GET /me/dashboard` — student dashboard summary: today's focus, upcoming deadlines (next 7 days), recent changes, and permitted pending claims. Pending claims must be labelled unverified and excluded from verified academic events. Quick actions are frontend navigation, not dashboard data.
 
 ### Institutions (admin)
 - `GET /institutions/:id`
@@ -113,6 +114,7 @@ Status codes: 200, 201, 202, 204, 400, 401, 403, 404, 409, 422, 429, 500.
 - `POST /claims/:id/approve`
 - `POST /claims/:id/reject`
 - `POST /claims/:id/merge`
+- Claim reads are filtered by the authenticated user's role and data access. Student clients are read-only for claims; approve/reject/merge actions require the appropriate staff permission.
 
 ### Verification
 - `POST /events/:id/verify`
@@ -139,7 +141,8 @@ Status codes: 200, 201, 202, 204, 400, 401, 403, 404, 409, 422, 429, 500.
 - `PATCH /submissions/:id/grade`
 
 ### Calendar
-- `GET /calendar?from=&to=&view=month|week`
+- `GET /calendar?from=&to=&view=month|week|agenda`
+- Student calendar results contain verified academic events visible to the authenticated student through their enrolments. Pending claims are surfaced separately as unverified items and do not appear as verified events.
 
 ### Reminders
 - `GET /reminders`

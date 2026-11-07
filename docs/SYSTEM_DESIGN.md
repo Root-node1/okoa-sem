@@ -33,7 +33,7 @@ flowchart LR
 
 Actors:
 
-- Student: consumes academic workspace, verifies claims, tracks submissions.
+- Student: consumes the academic workspace, submits information, tracks claim processing and verification outcomes, and manages submissions.
 - Lecturer / Class representative: publishes announcements and academic events.
 - System: extraction, duplicate/conflict detection, reminders, notifications.
 
@@ -87,13 +87,17 @@ Backend modules: `auth`, `users`, `institutions`, `academic`, `ingestion`, `extr
 ## 5. Frontend architecture
 
 - Next.js App Router with TypeScript.
-- Route groups: `(auth)`, `(student)`, `(staff)`, `(admin)`.
+- Route groups: `(auth)`, `(student)`, `(staff)`, `(admin)`. Route groups organize layouts and do not add URL segments.
+- Student routes: `/dashboard`, `/courses`, `/courses/[courseOfferingId]`, `/inbox`, `/calendar`, `/assignments`, `/assistant`, `/settings`.
+- The `(student)` layout owns the authenticated student shell and navigation. Use route-level layouts/pages for features and shared UI primitives from `src/components/ui`.
 - Server components for data fetching where possible; client components for interactive widgets.
-- Shared design system in `src/components/ui`.
-- API client in `src/lib/api` with typed contracts from `src/contracts`.
+- API client in `src/lib/api` with typed contracts from `src/contracts`; call the Express API directly rather than placing academic domain logic in Next.js Route Handlers.
 - State: React Query/SWR for server state; local state via React hooks.
 - Forms: React Hook Form + Zod (client-side validation mirrors backend schemas).
 - Calendar: component library behind an adapter.
+- Load page data in server components where practical; use client components for interactive controls and cached/refetched server state. All loading, empty, error, and processing states follow the API contract.
+- Frontend route guards improve navigation only; the Express API remains responsible for authentication, role checks, and tenant/enrolment access on every request. Keep the unresolved session transport isolated in the API client.
+- Students may submit information and view permitted claim status/evidence, but cannot approve, reject, merge, or verify academic claims/events. Pending claims remain visibly unverified and are not represented as verified calendar events.
 
 ## 6. Backend architecture
 
