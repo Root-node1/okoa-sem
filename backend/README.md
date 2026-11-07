@@ -29,6 +29,10 @@ See `backend/.env.example`. Required: `DATABASE_URL`. `NODE_ENV=test` for tests.
 - `npm test` — run tests (requires PostgreSQL)
 - `npm run migrate` — apply migrations
 
+## Migrations
+
+The migration runner records applied files in `schema_migrations` and skips already-applied migrations. Each migration runs in a transaction.
+
 ## Docker
 
 Build the image:
