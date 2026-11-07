@@ -19,7 +19,7 @@ Future: CourseMaterial (basic MVP maybe), AgentRun, detailed Submission grading,
 ## 3. Entities
 
 ### User
-- id (PK), email (unique), full_name, role (enum: student, class_rep, lecturer), institution_id (FK), auth_provider_id, created_at, updated_at, deleted_at.
+- id (PK), email (unique), full_name, role (legacy/default: student, class_rep, lecturer), institution_id (FK), account_status (active/suspended/inactive), email_verified, password_changed_at, auth_provider_id, created_at, updated_at, deleted_at.
 - Relationships: belongs to Institution; has many CourseEnrollment, Submission, Notification.
 
 ### Institution
@@ -81,6 +81,13 @@ Future: CourseMaterial (basic MVP maybe), AgentRun, detailed Submission grading,
 
 ### AgentRun
 - id, user_id, agent_name, input_summary, tools_used (jsonb), output_summary, status, started_at, ended_at, token_usage, cost_estimate.
+
+### WorkspaceMembership
+- id (PK), user_id (FK User), workspace_id (FK Institution), role (student/class_rep/lecturer), status (active/suspended/removed), created_at, updated_at.
+- Unique: user_id + workspace_id.
+
+### Session
+- id (PK), user_id (FK User), token_hash (unique), expires_at, revoked_at, created_at, last_used_at, ip_address, user_agent.
 
 ### AuditLog
 - id, actor_id, action, entity_type, entity_id, before (jsonb), after (jsonb), created_at, ip, user_agent.

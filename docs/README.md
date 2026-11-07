@@ -31,4 +31,6 @@ Status: Proposed
 - [Glossary](./GLOSSARY.md)
 - [Integration Contracts](./INTEGRATION_CONTRACTS.md)
 - [Open Questions](./OPEN_QUESTIONS.md)
+- [Frontend Integration](./FRONTEND_INTEGRATION.md)
+- [Frontend Auth Examples](./examples/frontend-auth-integration.md)
 - [Documentation Status](./DOCUMENTATION_STATUS.md)

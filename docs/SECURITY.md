@@ -78,3 +78,11 @@ Related: [Privacy](./PRIVACY_AND_DATA_GOVERNANCE.md), [System Design](./SYSTEM_D
 - Fixed system prompts; output schema validation.
 - Strip/escape control sequences in ingestion.
 - Never let extracted text alter system instructions.
+
+## 13. Session strategy
+
+- Server-managed opaque sessions using PostgreSQL.
+- Raw session token stored in HttpOnly cookie; only SHA-256 hash stored in `sessions`.
+- Expiry and revocation enforced server-side.
+- Secure cookie in production; SameSite=Lax; CORS credentials restricted to frontend origin.
+- Rate limiting on login.

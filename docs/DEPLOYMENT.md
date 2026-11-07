@@ -65,6 +65,11 @@ Status: Proposed
 - Revert to previous deploy artifact.
 - Run down migration only if safe; prefer forward fix.
 
+## 11a. Cloudinary
+
+- Configure CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET.
+- Keep credentials server-side only.
+
 ## 12. RumptyCloud note
 
 - Verify platform supports Next.js frontend + Node.js API + Postgres + env secrets + background jobs.
