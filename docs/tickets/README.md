@@ -2,84 +2,90 @@
 
 Single source of truth for implementation tickets. All work must reference a ticket ID.
 
-## Status legend
+## Team ownership
 
-- `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `REVIEW`, `TESTING`, `DONE`
+- Developer A — Student API Routes
+- Developer B — Extraction and Processing Layers
+- Developer C — Frontend UI End-to-End
+- Developer D — Backend Foundation and Deployment (accountable owner of shared backend, migrations, contracts, CI/CD, deployment)
 
-## Kanban workflow
+## Status flow
 
 `BACKLOG → READY → IN PROGRESS → REVIEW → TESTING → DONE`
 
-Add `BLOCKED` for tickets awaiting dependencies or decisions.
+Also allow `BLOCKED` for tickets awaiting dependencies or decisions. A ticket cannot enter READY until dependencies and contracts are satisfied.
 
 ## Ticket format
 
-Every ticket contains: Ticket ID, Title, Priority, Status, Suggested owner, Objective, Scope, Files/directories owned or may modify, Files/directories that must not be modified, Dependencies, API/data contracts required, Implementation instructions, Acceptance criteria, Tests required, Definition of Done, Integration notes.
+Every ticket contains: Ticket ID, Title, Milestone, Priority, Status, Accountable owner, Supporting developers, Objective, Product outcome, Scope, Files owned/allowed to modify, Files not allowed to modify, Dependencies, API/data contract, Implementation steps, Acceptance criteria, Tests required, Integration requirements, Definition of Done, Risks/decisions required.
 
-## Owners
+## Ownership matrix
 
-- Dev 1 — Frontend Engineer: `frontend/`
-- Dev 2 — Backend Engineer: `backend/`
-- Dev 3 — AI / Agent Engineer: AI provider, extraction, schemas, confidence, provenance, conflict detection, assistant boundaries
-- Dev 4 — DevOps Engineer: CI/CD, environments, deployment, DB operations, observability
-- Dev 5 — Product Lead: requirements, priorities, acceptance criteria, coordination (no implementation tickets by default)
-- Optional QA / Integration Engineer: cross-module tests, contract verification, accessibility, release verification
+| Area | Accountable owner |
+|---|---|
+| Student API routes/controllers/tests | Developer A |
+| Extraction and processing implementation | Developer B |
+| Frontend application | Developer C |
+| Shared backend foundation | Developer D |
+| Database migrations | Developer D |
+| Shared backend contracts | Developer D, with input from A and B |
+| CI/CD and deployment | Developer D |
+| Product acceptance criteria | Team agreement |
 
 ## Collision-prevention rules
 
-1. Every ticket has one accountable owner.
-2. A developer must not start a ticket until dependencies are satisfied.
-3. Developers must not edit another developer's owned files without coordination.
-4. Shared files require an explicitly identified owner.
-5. Database migrations must have one accountable backend owner.
-6. API contracts must be agreed between frontend and backend before parallel implementation.
-7. AI extraction schemas must be agreed between AI and backend before implementation.
-8. DevOps owns CI/CD and deployment configuration, but application developers must provide required build/test commands.
-9. All changes go through pull requests.
-10. No direct pushes to `main` during normal team development.
-11. Each PR must reference its ticket ID.
-12. Keep PRs small and focused.
-13. Run relevant tests before requesting review.
-14. Integration tickets verify that separately developed modules work together.
-
-WIP limit: one active implementation ticket per developer initially.
+1. One accountable owner per ticket.
+2. One owner for every shared file.
+3. No overlapping implementation tickets without explicit coordination.
+4. No independent database migrations from A or B.
+5. No independent changes to authentication from A, B or C.
+6. Frontend does not invent API contracts.
+7. Extraction does not write directly to authoritative academic records.
+8. No student API endpoint exposes unverified information as official.
+9. Shared contracts are agreed before parallel implementation.
+10. Every PR references a ticket ID.
+11. Every implementation change goes through review.
+12. No normal direct pushes to `main`.
+13. Keep PRs small and focused.
+14. Developers communicate before changing shared interfaces.
+15. Each developer initially works on no more than one active implementation ticket.
 
 ## Milestone files
 
-- [Milestone 0 — Verified foundation](./M0-foundation.md) (completed, reference only)
-- [Milestone 1 — Workspace and academic structure](./M1-workspace.md)
-- [Milestone 2 — Academic communication ingestion](./M2-ingestion.md)
-- [Milestone 3 — AI extraction and verification](./M3-extraction.md)
-- [Milestone 4 — Academic records and coordination](./M4-records.md)
-- [Milestone 5 — Notifications and assistant](./M5-notifications-assistant.md)
-- [Milestone 6 — Quality, security and deployment](./M6-quality-deployment.md)
+- [M0 — Shared contracts and integration foundation](./M0-contracts.md)
+- [M1 — Student API](./M1-student-api.md)
+- [M2 — Extraction and processing](./M2-extraction.md)
+- [M3 — Frontend end-to-end](./M3-frontend.md)
+- [M4 — Shared backend and integration](./M4-shared-backend.md)
+- [M5 — Deployment and production readiness](./M5-deployment.md)
 
-## Dependency summary
+## Dependency graph
 
-- M1 backend schema/API work precedes M2 ingestion.
-- M2 ingestion precedes M3 extraction.
-- M3 extraction precedes M4 records.
-- M4 records precede M5 notifications/assistant and M6 quality.
-- M6 quality depends on M5.
+- Developer D establishes shared contracts and integration boundaries first.
+- Developer A can start student API work once relevant data and authorization contracts are agreed.
+- Developer B can start schema design and isolated parsing work in parallel, but must agree source/claim/processing contracts before persistence integration.
+- Developer C can start UI shell, navigation, reusable components and page structure immediately; integrates with actual endpoints as they become available.
 
-## Parallel workstreams
+Integration checkpoints:
+1. API contract agreement.
+2. Source/extraction contract agreement.
+3. Shared persistence integration.
+4. Student API integration.
+5. Frontend integration.
+6. End-to-end workflow verification.
+7. Deployment verification.
 
-- Dev 1 can build frontend shells against agreed contracts while Dev 2 implements backend.
-- Dev 3 can design extraction schemas/prompts in parallel with Dev 2 ingestion, but must agree schemas before coding.
-- Dev 4 can set up CI/env/deploy in parallel with M1.
-- Dev 5 coordinates contract freezes and acceptance criteria.
+## Implemented features excluded from new tickets
 
-## Implemented foundation (do not re-ticket)
-
-IMPLEMENTED and verified: Express app, health endpoints, DB pool, migrations 001/002, auth module and tests, Cloudinary service and tests, React/Vite/Tailwind/Router scaffold, GitHub Actions CI.
+Already implemented and verified: Express app, health endpoints, DB pool, migrations 001/002, auth module and tests, Cloudinary foundation and tests, React/Vite/Tailwind/Router scaffold, GitHub Actions CI. Do not re-ticket these.
 
 ## Ticket counts by milestone
 
-| Milestone | Tickets | Primary owner |
+| Milestone | Tickets | Accountable owner |
 |---|---|---|
-| M1 | 8 | Dev 2 (backend), Dev 1 (frontend) |
-| M2 | 7 | Dev 2 (backend), Dev 1 (frontend), Dev 3 (AI) |
-| M3 | 9 | Dev 3 (AI), Dev 2 (backend), Dev 1 (frontend) |
-| M4 | 8 | Dev 2 (backend), Dev 1 (frontend), Dev 3 (AI) |
-| M5 | 6 | Dev 2/Dev 3 (backend/AI), Dev 1 (frontend) |
-| M6 | 7 | Dev 4 (DevOps), all |
+| M0 | 6 | Developer D |
+| M1 | 9 | Developer A |
+| M2 | 13 | Developer B |
+| M3 | 16 | Developer C |
+| M4 | 11 | Developer D |
+| M5 | 10 | Developer D |

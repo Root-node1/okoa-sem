@@ -1,18 +1,18 @@
 # Okoa Sem Documentation
 
-## Retained documentation
+## Authoritative documents
 
-- [Backend architecture](./ARCHITECTURE.md) — system design, decisions, data model, security, API conventions, roles, implementation status.
-- [Developer tickets](./tickets/README.md) — ticket index, roadmap, ownership, dependencies.
+- [System design](./system_design.md) — product, architecture, domain modules, lifecycle, entities, API, security, status.
+- [Developer tickets](./tickets/README.md) — ticket index, ownership, workflow, dependencies.
 
 ## Implementation status legend
 
-- **IMPLEMENTED**: exists in code and is verified by tests or build.
-- **APPROVED**: agreed design or contract not yet coded.
+- **IMPLEMENTED**: exists in code and verified.
+- **APPROVED**: agreed but not coded.
 - **PROPOSED**: candidate requiring a decision.
 - **NOT YET IMPLEMENTED**: planned but not started.
 
-## Other retained assets
+## Retained assets
 
 - PostgreSQL migrations: `backend/migrations/`
 - Postman collection: `docs/postman/`

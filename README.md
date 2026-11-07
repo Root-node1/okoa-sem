@@ -68,5 +68,5 @@ npm --prefix frontend run build
 ## Documentation
 
 - [Documentation index](./docs/README.md)
-- [Backend architecture](./docs/ARCHITECTURE.md)
+- [Backend architecture](./docs/system_design.md)
 - [Developer tickets](./docs/tickets/README.md)
