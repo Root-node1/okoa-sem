@@ -2,36 +2,71 @@
 
 Academic Coordination Intelligence Platform.
 
-## Applications
+Okoa Sem turns fragmented academic communication into reliable, traceable academic information and coordination. AI proposes information; the backend validates it; humans verify it before it becomes authoritative.
 
-- Main workspace: Next.js app at `http://localhost:3000`.
-- Student frontend: Next.js app at `http://localhost:5173`.
-- Backend API: Express app at `http://localhost:5000`.
+## Stack
 
-The student frontend currently uses isolated sample data because its documented API endpoints are not implemented. Preview interactions are not persisted.
+- Frontend: React, TypeScript, Vite, Tailwind CSS, React Router
+- Backend: Node.js, Express, JavaScript ES modules, PostgreSQL (`pg`), Zod
+- Authentication: server-managed opaque sessions, Argon2id password hashing
+- File storage: Cloudinary (foundation implemented)
+- CI: GitHub Actions
 
-## Getting started
+## Run locally
 
-Install root dependencies with either package manager, then install the frontend and backend dependencies:
+Prerequisites: Node.js 22+, PostgreSQL 16+.
+
+1. Install dependencies:
 
 ```bash
 npm install
-# or: pnpm install
-npm --prefix frontend install
 npm --prefix backend install
+npm --prefix frontend install
 ```
 
-Configure `backend/.env` from `backend/.env.example`, then run all three applications:
+2. Configure environment:
+
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
+
+Set `DATABASE_URL` in `backend/.env`.
+
+3. Run migrations:
+
+```bash
+npm --prefix backend run migrate
+```
+
+4. Start both apps:
 
 ```bash
 npm run dev
 ```
 
-To run an individual application, use `npm run dev:portal`, `npm run dev:frontend`, or `npm run dev:backend`.
+- Frontend: http://localhost:5173
+- Backend: http://localhost:5000
+- Health: http://localhost:5000/api/v1/health
 
-Frontend checks:
+## Tests
+
+Backend:
 
 ```bash
-npm --prefix frontend run lint
+cd backend && NODE_ENV=test npm test
+```
+
+Requires a running PostgreSQL database configured by `DATABASE_URL`.
+
+Frontend build:
+
+```bash
 npm --prefix frontend run build
 ```
+
+## Documentation
+
+- [Documentation index](./docs/README.md)
+- [Backend architecture](./docs/system_design.md)
+- [Developer tickets](./docs/tickets/README.md)
