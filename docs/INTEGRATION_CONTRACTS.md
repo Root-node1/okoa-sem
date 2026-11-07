@@ -4,8 +4,11 @@ Status: Proposed
 
 ## 1. Frontend ↔ Backend
 
+- Backend: Node.js + TypeScript + Express REST API.
 - API base `/api/v1`.
-- Auth via httpOnly cookie.
+- Frontend base URL via `NEXT_PUBLIC_API_BASE_URL`.
+- Auth via httpOnly cookie or bearer token.
+- CORS origin restricted to frontend origin.
 - Error envelope as in API design.
 - Pagination `page/pageSize`.
 - Event types enum shared.

@@ -3,20 +3,26 @@
 Status: Proposed
 Related: [Implementation Tasks](./IMPLEMENTATION_TASKS.md), [Team Workflow](./TEAM_WORKFLOW.md), [Deployment](./DEPLOYMENT.md)
 
+## Architecture
+
+- Frontend: Next.js.
+- Backend: Node.js + TypeScript + Express modular monolith.
+- Frontend communicates with backend via REST `/api/v1`.
+
 ## M0 — Foundation
 
-**Objective:** Repository, tooling, CI, basic deploy.
-**Tasks:** repo scaffold, lint/typecheck, env config, DB connection, CI pipeline, deploy hello-world.
+**Objective:** Repos, tooling, CI, basic deploy.
+**Tasks:** scaffold frontend and backend, lint/typecheck, env config, DB connection, CI pipeline, deploy hello-world.
 **Ownership:** DevOps/QA (R), Product Lead (A), all contributors.
-**Deliverables:** running app, CI green, deploy.
-**Acceptance:** `npm run dev`, `npm run build`, CI pass.
+**Deliverables:** running apps, CI green, deploy.
+**Acceptance:** `npm run dev` (both), build passes, CI pass.
 **Tests:** smoke.
 **DoD:** documented setup.
 
 ## M1 — Identity and academic setup
 
-**Objective:** Auth, profiles, institution context, courses, enrolments.
-**Tasks:** auth flows, RBAC, institution CRUD (admin), course/offering, enrolment.
+**Objective:** Auth, profiles, institution context, courses, enrolments in Node.js backend; auth screens in frontend.
+**Tasks:** backend auth module + middleware, RBAC, tenant isolation, institution/course/enrolment APIs; frontend auth and course selection.
 **Ownership:** Backend (R/A domain), Frontend (R UI), DevOps (CI).
 **Dependencies:** M0.
 **Acceptance:** user can register and enrol in courses.
@@ -25,7 +31,7 @@ Related: [Implementation Tasks](./IMPLEMENTATION_TASKS.md), [Team Workflow](./TE
 ## M2 — Information ingestion
 
 **Objective:** Text paste, file upload, storage, source records, processing status.
-**Tasks:** ingestion endpoints, storage adapter, communication source/document, status UI.
+**Tasks:** backend ingestion/storage modules, status APIs; frontend paste/upload UI.
 **Ownership:** Backend (R), Frontend (R), DevOps (storage).
 **Dependencies:** M1.
 **Acceptance:** paste/upload creates source with status.
@@ -34,7 +40,7 @@ Related: [Implementation Tasks](./IMPLEMENTATION_TASKS.md), [Team Workflow](./TE
 ## M3 — AI extraction
 
 **Objective:** Structured extraction, validation, course resolution, pending claims.
-**Tasks:** provider abstraction, prompts, extraction job, Zod validation, claim persistence, review UI.
+**Tasks:** backend extraction module + queue jobs, provider abstraction, prompts, Zod validation; frontend review UI.
 **Ownership:** AI (R), Backend (R), Frontend (R).
 **Dependencies:** M2.
 **Acceptance:** extracted claims visible and reviewable.
@@ -43,7 +49,7 @@ Related: [Implementation Tasks](./IMPLEMENTATION_TASKS.md), [Team Workflow](./TE
 ## M4 — Academic records
 
 **Objective:** Events, assignments, verification, provenance, change history.
-**Tasks:** event/assignment CRUD, verify/reject, provenance links, audit.
+**Tasks:** backend events/assignments modules, verify/reject, audit; frontend views.
 **Ownership:** Backend (R/A), Frontend (R), AI (conflict support).
 **Dependencies:** M3.
 **Acceptance:** verified claim creates event; calendar updates.
@@ -52,7 +58,7 @@ Related: [Implementation Tasks](./IMPLEMENTATION_TASKS.md), [Team Workflow](./TE
 ## M5 — Student workspace
 
 **Objective:** Dashboard, calendar, course workspaces, inbox.
-**Tasks:** dashboard, calendar view, workspace pages, inbox.
+**Tasks:** backend APIs; frontend dashboard, calendar, workspace pages, inbox.
 **Ownership:** Frontend (R/A), Backend (API), Design (UX).
 **Dependencies:** M4.
 **Acceptance:** student sees events/deadlines and sources.
@@ -61,7 +67,7 @@ Related: [Implementation Tasks](./IMPLEMENTATION_TASKS.md), [Team Workflow](./TE
 ## M6 — Intelligent coordination
 
 **Objective:** Conflict detection, deadline monitoring, reminders, assistant.
-**Tasks:** conflict detection, reminder scheduler, assistant endpoint + UI.
+**Tasks:** backend jobs + assistant module; frontend assistant UI.
 **Ownership:** AI (R), Backend (R), Frontend (R).
 **Dependencies:** M4, M5.
 **Acceptance:** conflicts shown; reminders scheduled; assistant answers with citations.
@@ -70,7 +76,7 @@ Related: [Implementation Tasks](./IMPLEMENTATION_TASKS.md), [Team Workflow](./TE
 ## M7 — Quality and release
 
 **Objective:** Notifications, permissions hardening, security, accessibility, deploy verification.
-**Tasks:** notifications, security review, a11y fixes, performance, release checklist.
+**Tasks:** backend/frontend hardening, security review, a11y fixes, performance, release checklist.
 **Ownership:** DevOps/QA (R/A), all.
 **Dependencies:** M6.
 **Acceptance:** release checklist pass; demo ready.
@@ -81,3 +87,4 @@ Related: [Implementation Tasks](./IMPLEMENTATION_TASKS.md), [Team Workflow](./TE
 - M0-M2 can have frontend/backend parallel.
 - AI starts prompt design in M2 using sample data.
 - Do not start M6 before M4 stable.
+- Backend owns all academic business logic; frontend never implements domain rules.

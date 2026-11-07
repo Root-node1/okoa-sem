@@ -11,10 +11,13 @@ Status: Proposed
 
 ## 2. Module boundaries
 
-- Backend modules under `src/server/modules/*`.
+- Backend modules under `backend/src/modules/*`.
+- Each module: controller, service, repository, schema, routes.
 - Public module index only; no deep imports.
-- Frontend features under `src/features/*`.
+- Frontend features under `frontend/src/features/*` (or `src/features/*` in Next.js app).
 - Shared contracts in `src/contracts`.
+- Controllers must not contain business logic.
+- AI providers must not access the database directly.
 
 ## 3. Naming conventions
 

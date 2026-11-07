@@ -3,18 +3,49 @@
 Status: Proposed (all contracts proposed)
 Related: [System Design](./SYSTEM_DESIGN.md), [Data Model](./DATA_MODEL.md), [Integration Contracts](./INTEGRATION_CONTRACTS.md)
 
-## 1. Conventions
+## 1. Architecture
 
+- Frontend: Next.js.
+- Backend: Node.js + TypeScript + Express REST API.
 - Base path: `/api/v1`.
+- Frontend communicates only through documented API contracts.
+
+## 2. Environment configuration
+
+- `NEXT_PUBLIC_API_BASE_URL` for frontend.
+- `API_BASE_URL` / `PORT` for backend.
+- CORS origin configured to frontend origin(s).
+
+## 3. Authentication and sessions
+
+- Backend auth middleware resolves user + tenant context.
+- Session via httpOnly cookie or bearer token for non-browser clients.
+- All protected endpoints require authenticated session.
+- Role and tenant checks enforced server-side.
+
+## 4. CORS policy
+
+- Allow frontend origin(s) only.
+- Credentials allowed for cookie auth.
+- Preflight handled by backend middleware.
+
+## 5. Conventions
+
 - JSON request/response. Content-Type `application/json`.
-- Authentication: httpOnly session cookie; `Authorization: Bearer` optional for non-browser clients.
 - Timestamps: ISO 8601 UTC.
 - IDs: UUID strings.
 - Pagination: `?page=1&pageSize=20` (max 100). Response includes `meta: { page, pageSize, total }`.
 - Filtering: query params documented per endpoint.
 - Sorting: `?sort=field&order=asc|desc`.
 
-## 2. Error response format
+## 6. Typed contracts
+
+- Shared TypeScript types in `src/contracts` (frontend) and backend schema modules.
+- Zod schemas validate request/response.
+- Frontend API client uses typed responses.
+- Breaking changes require version bump (e.g., `/api/v2`).
+
+## 7. Error response format
 
 ```json
 {
@@ -29,115 +60,110 @@ Related: [System Design](./SYSTEM_DESIGN.md), [Data Model](./DATA_MODEL.md), [In
 
 Status codes: 200, 201, 202, 204, 400, 401, 403, 404, 409, 422, 429, 500.
 
-## 3. Authentication endpoints (proposed)
+## 8. Frontend states
 
+- Loading: skeletons/spinners.
+- Validation: inline field errors.
+- Error: retry + support info.
+- Empty: guidance + CTA.
+- Processing: status badge for async jobs.
+
+## 9. Endpoints (proposed)
+
+### Auth
 - `POST /auth/register`
 - `POST /auth/login`
 - `POST /auth/logout`
 - `GET /auth/me`
 - `POST /auth/magic-link`
 
-## 4. Academic profile
-
+### Academic profile
 - `GET /me/profile`
 - `PATCH /me/profile`
 
-## 5. Institutions (admin)
-
+### Institutions (admin)
 - `GET /institutions/:id`
 - `PATCH /institutions/:id`
 - `POST /institutions/:id/departments`
 - `POST /institutions/:id/programmes`
 - `POST /institutions/:id/terms`
 
-## 6. Courses and enrolments
-
+### Courses and enrolments
 - `GET /courses?institutionId=`
 - `POST /courses`
 - `GET /course-offerings?termId=&classGroupId=`
 - `POST /course-offerings`
 - `GET /me/enrolments`
-- `POST /me/enrolments` (join by code)
+- `POST /me/enrolments`
 - `DELETE /me/enrolments/:id`
 
-## 7. Ingestion
-
-- `POST /ingestion/text` body `{ sourceType, text, courseId? }` -> 202 `{ communicationSourceId, status }`
-- `POST /ingestion/upload` multipart file -> 202
-- `GET /ingestion/:id` status + extracted claims
+### Ingestion
+- `POST /ingestion/text`
+- `POST /ingestion/upload`
+- `GET /ingestion/:id`
 - `POST /ingestion/:id/reprocess`
 
-## 8. Documents
-
+### Documents
 - `GET /documents/:id`
 - `GET /documents/:id/text`
 
-## 9. Extracted claims
-
+### Extracted claims
 - `GET /claims?status=&courseOfferingId=`
 - `GET /claims/:id`
 - `POST /claims/:id/approve`
-- `POST /claims/:id/reject` body `{ reason }`
-- `POST /claims/:id/merge` body `{ targetClaimId }`
+- `POST /claims/:id/reject`
+- `POST /claims/:id/merge`
 
-## 10. Verification
-
+### Verification
 - `POST /events/:id/verify`
 - `POST /events/:id/reject`
 - `GET /events/:id/history`
 
-## 11. Academic events
-
+### Academic events
 - `GET /events?from=&to=&courseOfferingId=&type=`
 - `POST /events`
 - `GET /events/:id`
 - `PATCH /events/:id`
-- `DELETE /events/:id` (soft)
+- `DELETE /events/:id`
 
-## 12. Assignments
-
+### Assignments
 - `GET /assignments?courseOfferingId=&status=`
 - `POST /assignments`
 - `GET /assignments/:id`
 - `PATCH /assignments/:id`
 
-## 13. Submissions
-
+### Submissions
 - `GET /submissions?assignmentId=&studentId=`
-- `POST /submissions` (multipart)
+- `POST /submissions`
 - `GET /submissions/:id`
 - `PATCH /submissions/:id/grade`
 
-## 14. Calendar
-
+### Calendar
 - `GET /calendar?from=&to=&view=month|week`
 
-## 15. Reminders
-
+### Reminders
 - `GET /reminders`
 - `POST /reminders`
 - `PATCH /reminders/:id`
 - `DELETE /reminders/:id`
 
-## 16. Notifications
-
+### Notifications
 - `GET /notifications?unread=`
 - `POST /notifications/:id/read`
 - `POST /notifications/read-all`
 
-## 17. Academic assistant
-
-- `POST /assistant/query` body `{ question, context? }` -> `{ answer, sources: [{ type, id, snippet }], confidence }`
+### Academic assistant
+- `POST /assistant/query`
 - `GET /assistant/history`
 
-## 18. Admin/monitoring (future)
-
+### Admin/monitoring (future)
 - `GET /admin/jobs`
 - `GET /admin/audit-logs`
 
-## 19. Contract rules
+## 10. Contract rules
 
 - All proposed endpoints must be implemented behind feature flags until stable.
 - Breaking changes require version bump.
 - Shared types live in `src/contracts`.
 - AI never calls endpoints directly; agent tools wrap backend services.
+- Backend is the sole authority for domain state.

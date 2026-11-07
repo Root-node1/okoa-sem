@@ -26,6 +26,15 @@ R=Responsible, A=Accountable, C=Consulted, I=Informed. One A per deliverable.
 | Documentation | A | C | C | C | C | R |
 | Demo acceptance | A | C | C | C | C | R |
 
+## 1b. Workstream ownership
+
+- Frontend Engineer: Next.js application, screens, components, frontend API integration.
+- Backend Engineer: Node.js/Express API, domain modules, database access, authentication and authorization.
+- AI/Agent Engineer: extraction pipeline, AI provider abstraction, structured outputs, conflict detection and agent tools.
+- DevOps Engineer: backend/frontend deployment, CI/CD, environments, secrets, database operations, logging and monitoring.
+- Product Lead: requirements, priorities, acceptance criteria and integration coordination.
+- Optional sixth member: QA/UX/Integration Engineer, cross-module testing, usability and integration verification.
+
 ## 1. Communication
 
 - Daily async standup (what done, next, blockers) in team channel.

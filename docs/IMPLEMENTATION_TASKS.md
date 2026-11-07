@@ -7,6 +7,7 @@ Owner legend: PL=Product Lead, FE=Frontend, BE=Backend, AI=AI/Agent, DO=DevOps/Q
 
 | ID | Milestone | Description | Owner (A) | Contributors | Deps | Priority | Complexity | Modules | Acceptance | Tests |
 |---|---|---|---|---|---|---|---|---|---|---|
+| T-000 | M0 | Initialize Node.js + TypeScript + Express backend | DO | BE | - | High | S | backend | build passes | smoke |
 | T-001 | M0 | Initialize Next.js TS app with App Router | DO | FE | - | High | S | app | build passes | smoke |
 | T-002 | M0 | Configure ESLint/Prettier/TS strict | DO | all | T-001 | High | S | tooling | lint passes | - |
 | T-003 | M0 | Env config + `.env.example` | DO | BE | T-001 | High | S | config | app boots | - |
