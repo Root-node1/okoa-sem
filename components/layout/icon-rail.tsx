@@ -9,7 +9,6 @@ import {
   MessageSquare,
   Settings,
   Flame,
-  ArrowUpRight,
 } from "lucide-react";
 
 export function IconRail() {

@@ -1,3 +1,10 @@
+import { workspaceService } from "@/services/workspace-service";
+
+export async function generateStaticParams() {
+  const units = await workspaceService.getUnits();
+  return units.map((u) => ({ unitId: u.id }));
+}
+
 export default function UnitEmptyIndexPage() {
   return (
     <div className="flex-1 h-full flex flex-col items-center justify-center p-8 text-center select-none bg-canvas">

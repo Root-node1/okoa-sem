@@ -14,6 +14,14 @@ interface ItemPageProps {
   params: Promise<{ unitId: string; itemId: string }>;
 }
 
+export async function generateStaticParams() {
+  const items = await workspaceService.getAllQueueItems();
+  return items.map((item) => ({
+    unitId: item.unitId,
+    itemId: item.id,
+  }));
+}
+
 export default async function ItemPage({ params }: ItemPageProps) {
   const { itemId } = await params;
   const item = await workspaceService.getItemById(itemId);
