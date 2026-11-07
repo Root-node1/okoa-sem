@@ -19,7 +19,7 @@ Future: CourseMaterial (basic MVP maybe), AgentRun, detailed Submission grading,
 ## 3. Entities
 
 ### User
-- id (PK), email (unique), full_name, role (enum), institution_id (FK), auth_provider_id, created_at, updated_at, deleted_at.
+- id (PK), email (unique), full_name, role (enum: student, class_rep, lecturer), institution_id (FK), auth_provider_id, created_at, updated_at, deleted_at.
 - Relationships: belongs to Institution; has many CourseEnrollment, Submission, Notification.
 
 ### Institution

@@ -4,7 +4,8 @@ Status: Proposed
 
 ## 1. Code standards
 
-- TypeScript strict mode.
+- Frontend: TypeScript strict mode.
+- Backend: JavaScript (ES modules).
 - ESLint + Prettier.
 - No `any` without justification.
 - Prefer pure functions in domain layer.

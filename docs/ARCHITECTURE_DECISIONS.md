@@ -24,9 +24,9 @@ Related: [System Design](./SYSTEM_DESIGN.md)
 ## ADR-003: Backend runtime and framework
 
 **Status:** Accepted (proposed)
-**Context:** Need TypeScript backend with clear module boundaries and ecosystem.
+**Context:** Need JavaScript backend with clear module boundaries and ecosystem.
 **Alternatives:** Node.js/Express, Fastify, NestJS, Next.js Route Handlers.
-**Decision:** Node.js + TypeScript + Express for the backend API.
+**Decision:** Node.js + JavaScript (ES modules) + Express for the backend API.
 **Consequences:** Familiar, flexible, large ecosystem; Express requires manual structure discipline.
 **Review conditions:** If performance or structure demands a different framework.
 

@@ -88,3 +88,11 @@ Related: [Implementation Tasks](./IMPLEMENTATION_TASKS.md), [Team Workflow](./TE
 - AI starts prompt design in M2 using sample data.
 - Do not start M6 before M4 stable.
 - Backend owns all academic business logic; frontend never implements domain rules.
+
+## Known limitations (current foundation)
+
+- Real authentication is not implemented.
+- Domain modules are still placeholders.
+- Background workers are not implemented.
+- RumptyCloud deployment has not been verified.
+- PostgreSQL testing has been performed locally only.

@@ -20,7 +20,6 @@ Related: [Architecture Decisions](./ARCHITECTURE_DECISIONS.md), [Data Model](./D
 flowchart LR
   Student[Student] --> Web[Next.js Frontend]
   Lecturer[Lecturer / Class Rep] --> Web
-  Admin[Institution Admin] --> Web
   Web --> API[Node.js Express API]
   API --> DB[(PostgreSQL)]
   API --> Storage[(File Storage)]
@@ -36,12 +35,11 @@ Actors:
 
 - Student: consumes academic workspace, verifies claims, tracks submissions.
 - Lecturer / Class representative: publishes announcements and academic events.
-- Institution admin: manages institution, programmes, courses, terms, enrolments.
 - System: extraction, duplicate/conflict detection, reminders, notifications.
 
 ## 3. High-level architecture
 
-Modular monolith backend (Node.js + TypeScript + Express) with a separate Next.js frontend and async background processing.
+Modular monolith backend (Node.js + JavaScript + Express) with a separate Next.js frontend and async background processing.
 
 ```mermaid
 flowchart TB
@@ -193,7 +191,7 @@ See [AI Architecture](./AI_ARCHITECTURE.md). Summary:
 
 ## 13. Authorisation
 
-Roles: `student`, `lecturer`, `class_rep`, `institution_admin`, `system`.
+Roles: `student`, `class_rep`, `lecturer`.
 - RBAC enforced server-side in middleware/services.
 - Tenant isolation: users only access data within their institution and enrolments.
 - Verification permissions: only authorised roles can confirm/correct events.
