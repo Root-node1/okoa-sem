@@ -130,7 +130,7 @@ External integrations:
 - AI provider abstraction (not yet implemented)
 - Background job processing (not yet implemented)
 
-Background processing is a required product capability for asynchronous extraction and reminders, but no job runner is currently implemented. Runner choice remains an architectural decision (PROPOSED).
+Background processing decision: IMPLEMENTED as a PostgreSQL-backed job queue using `processing_jobs`, polling workers, `FOR UPDATE SKIP LOCKED`, retry/backoff, and idempotent job keys. No Redis or external queue is used. Worker entry point: `npm run worker`.
 
 ## 3. Domain modules
 
@@ -249,17 +249,21 @@ Implemented in database (from migrations):
 - `workspace_memberships`: IMPLEMENTED
 - `sessions`: IMPLEMENTED
 
-Planned entities (NOT YET IMPLEMENTED, require migrations owned by Developer D):
-- `communication_sources`: planned
-- `source_documents`: planned
-- `extracted_claims`: planned
-- `academic_events`: planned
-- `assignments`: planned
-- `submissions`: planned
-- `personal_tasks`: planned
-- `audit_logs`: planned
-- `notifications`: planned
-- `reminders`: planned
+Implemented schema foundations (migration 003):
+- `course_memberships`: IMPLEMENTED
+- `sources`: IMPLEMENTED
+- `source_documents`: IMPLEMENTED
+- `processing_jobs`: IMPLEMENTED
+- `extracted_claims`: IMPLEMENTED
+- `academic_events`: IMPLEMENTED
+- `audit_logs`: IMPLEMENTED
+
+Still planned (NOT YET IMPLEMENTED):
+- `assignments`
+- `submissions`
+- `personal_tasks`
+- `notifications`
+- `reminders`
 
 Relationships:
 - Institution has many users, courses, workspace memberships.

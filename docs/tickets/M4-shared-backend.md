@@ -4,7 +4,7 @@
 
 **Milestone:** M4
 **Priority:** P0
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A, B
 **Objective:** Coordinate shared schema changes and migrations.
@@ -25,7 +25,7 @@
 
 **Milestone:** M4
 **Priority:** P1
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A, B
 **Objective:** Implement shared academic domain services.
@@ -46,7 +46,7 @@
 
 **Milestone:** M4
 **Priority:** P1
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** B
 **Objective:** Persist sources and provenance.
@@ -88,7 +88,7 @@
 
 **Milestone:** M4
 **Priority:** P1
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A, B
 **Objective:** Create events from approved claims with versioning.
@@ -109,7 +109,7 @@
 
 **Milestone:** M4
 **Priority:** P1
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A, B
 **Objective:** Implement audit logging.
@@ -151,7 +151,7 @@
 
 **Milestone:** M4
 **Priority:** P1
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** B
 **Objective:** Decide and implement background processing approach.

@@ -5,6 +5,15 @@ import app from '../src/app.js'
 import { pool } from '../src/config/database.js'
 
 async function resetDb() {
+  await pool.query('DELETE FROM audit_logs')
+  await pool.query('DELETE FROM academic_events')
+  await pool.query('DELETE FROM extracted_claims')
+  await pool.query('DELETE FROM processing_jobs')
+  await pool.query('DELETE FROM source_documents')
+  await pool.query('DELETE FROM sources')
+  await pool.query('DELETE FROM course_memberships')
+  await pool.query('DELETE FROM course_enrolments')
+  await pool.query('DELETE FROM courses')
   await pool.query('DELETE FROM sessions')
   await pool.query('DELETE FROM workspace_memberships')
   await pool.query('DELETE FROM users')
