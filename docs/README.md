@@ -6,6 +6,7 @@
 - [Student API contracts](./student-api-contracts.md) — proposed student-facing API contracts.
 - [Source and extraction contracts](./source-extraction-contracts.md) — proposed source, claim and extraction contracts.
 - [Frontend API contracts](./frontend-api-contracts.md) — proposed frontend integration contracts.
+- [Authorization boundaries](./authorization-boundaries.md) — proposed authorization model.
 - [Developer tickets](./tickets/README.md) — ticket index, ownership, workflow, dependencies.
 
 ## Implementation status legend

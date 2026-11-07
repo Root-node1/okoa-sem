@@ -88,7 +88,7 @@
 
 **Milestone:** M0
 **Priority:** P0
-**Status:** NOT STARTED
+**Status:** DONE
 **Accountable owner:** Developer D
 **Supporting developers:** A, B
 **Objective:** Define workspace and course authorization boundaries.
