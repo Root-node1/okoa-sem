@@ -50,3 +50,25 @@ Owner: Developer D
 
 - Backend health endpoint returns 200.
 - Authenticated flow tested in `backend/tests/auth.test.js`.
+
+
+## Cloudflare Workers Builds (frontend)
+
+- Root directory: `frontend`
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+- Preview command: `npx wrangler versions upload` (creates a preview version; requires Cloudflare authentication)
+- Build output directory: `dist`
+- Wrangler configuration: `frontend/wrangler.jsonc`
+- Worker name: `okoa-sem`
+- Compatibility date: `2026-11-07`
+
+Required Cloudflare build environment variables:
+- `VITE_API_URL` — production backend API base URL ending in `/api/v1`.
+
+`VITE_` variables are embedded in client assets and must not contain secrets.
+
+Watch paths recommendation:
+- `frontend/**`
+- Do not trigger frontend builds for `backend/**` or documentation-only changes.
+- Root-level package files do not affect the frontend build in this repository.
