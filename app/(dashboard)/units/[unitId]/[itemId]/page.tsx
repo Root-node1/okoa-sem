@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { workspaceService } from "@/services/workspace-service";
+import { ItemQueue } from "@/components/workspace/item-queue";
 import {
   CheckCircle2,
   Paperclip,
@@ -23,7 +25,7 @@ export async function generateStaticParams() {
 }
 
 export default async function ItemPage({ params }: ItemPageProps) {
-  const { itemId } = await params;
+  const { unitId, itemId } = await params;
   const item = await workspaceService.getItemById(itemId);
 
   if (!item) {
@@ -32,14 +34,22 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
   return (
     <div className="flex flex-1 h-full overflow-hidden">
+      {/* Layer 2: Focused Submission Queue for this Unit */}
+      <aside className="w-80 flex-shrink-0 h-full hidden lg:flex flex-col">
+        <ItemQueue unitId={unitId} activeItemId={itemId} />
+      </aside>
+
       {/* Center Canvas: Active Conversation & Code Discussion */}
       <div className="flex-1 flex flex-col h-full bg-surface-1 border-r border-border-subtle">
         {/* Workspace Canvas Header */}
         <header className="h-14 px-6 border-b border-border-subtle flex items-center justify-between bg-surface-1 flex-shrink-0">
           <div className="flex items-center gap-2.5 truncate">
-            <span className="font-mono-code text-xs text-txt-muted">
+            <Link
+              href={`/units/${unitId}`}
+              className="font-mono-code text-xs text-txt-muted hover:text-txt-main transition-colors"
+            >
               {item.unitCode}
-            </span>
+            </Link>
             <ChevronRight size={13} className="text-txt-muted" />
             <h1 className="text-xs font-semibold text-txt-main truncate">
               {item.title}

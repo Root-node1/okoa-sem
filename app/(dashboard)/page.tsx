@@ -65,10 +65,10 @@ export default function DashboardOverviewPage() {
             </div>
 
             <Link
-              href={isStudent ? "/reviews" : "/reviews"}
+              href={isStudent ? "/inbox" : "/reviews"}
               className="h-7 px-3 rounded text-xs font-medium bg-txt-main text-canvas flex items-center gap-1.5 hover:opacity-90 shrink-0 transition-opacity"
             >
-              <span>{isStudent ? "View Inbox" : "Triage Submissions"}</span>
+              <span>{isStudent ? "Open Academic Inbox" : "Triage Submissions"}</span>
               <ChevronRight size={13} />
             </Link>
           </div>

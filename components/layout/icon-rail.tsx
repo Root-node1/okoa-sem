@@ -8,8 +8,9 @@ import {
   BookOpen,
   Inbox,
   CalendarDays,
+  CheckSquare,
+  Sparkles,
   Settings,
-  Flame,
   ArrowRightLeft,
 } from "lucide-react";
 
@@ -18,10 +19,36 @@ export function IconRail() {
   const { user, role, toggleRole, isStudent } = useAuthRole();
 
   const navItems = [
-    { href: "/", icon: LayoutDashboard, label: isStudent ? "Academic Overview" : "Teaching Overview" },
-    { href: "/units", icon: BookOpen, label: isStudent ? "My Courses" : "Managed Units" },
-    { href: "/reviews", icon: Inbox, label: isStudent ? "Academic Inbox" : "Submissions Queue" },
-    { href: "/consultations", icon: CalendarDays, label: "Office Hours" },
+    {
+      href: "/",
+      icon: LayoutDashboard,
+      label: isStudent ? "Academic Overview" : "Teaching Overview",
+    },
+    {
+      href: "/inbox",
+      icon: Inbox,
+      label: isStudent ? "Academic Inbox" : "Claim Verification",
+    },
+    {
+      href: "/units",
+      icon: BookOpen,
+      label: isStudent ? "My Courses" : "Managed Units",
+    },
+    {
+      href: "/calendar",
+      icon: CalendarDays,
+      label: "Academic Calendar",
+    },
+    {
+      href: "/tasks",
+      icon: CheckSquare,
+      label: isStudent ? "Tasks & Deadlines" : "Assignments",
+    },
+    {
+      href: "/assistant",
+      icon: Sparkles,
+      label: "Course Assistant",
+    },
   ];
 
   const getInitials = (name: string) => {
@@ -41,9 +68,9 @@ export function IconRail() {
         <Link
           href="/"
           className="h-10 w-10 rounded-lg bg-surface-2 border border-border-strong flex items-center justify-center font-serif-display font-semibold text-lg text-txt-main hover:bg-surface-3 transition-colors"
-          title="MCS Coordination Platform"
+          title="Okoa Sem | MCS Coordination Platform"
         >
-          N
+          O
         </Link>
 
         {/* Navigation Items */}
@@ -60,13 +87,13 @@ export function IconRail() {
                 key={item.href}
                 href={item.href}
                 title={item.label}
-                className={`relative h-11 w-full rounded-md flex items-center justify-center transition-all ${
+                className={`relative h-10 w-full rounded-md flex items-center justify-center transition-all ${
                   isActive
                     ? "bg-surface-2 text-txt-main font-medium border border-border-strong"
                     : "text-txt-muted hover:text-txt-main hover:bg-surface-2"
                 }`}
               >
-                <Icon size={18} strokeWidth={isActive ? 2 : 1.7} />
+                <Icon size={17} strokeWidth={isActive ? 2 : 1.7} />
                 {isActive && (
                   <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-txt-main rounded-r" />
                 )}
@@ -86,27 +113,25 @@ export function IconRail() {
           <ArrowRightLeft size={16} />
         </button>
 
-        <button
-          title="Active Semester Sprint"
-          className="h-9 w-9 rounded-md flex items-center justify-center text-amber hover:bg-surface-2 transition-colors"
-        >
-          <Flame size={16} />
-        </button>
-
-        <button
+        <Link
+          href="/settings"
           title="Settings"
-          className="h-9 w-9 rounded-md flex items-center justify-center text-txt-muted hover:text-txt-main hover:bg-surface-2 transition-colors"
+          className={`h-9 w-9 rounded-md flex items-center justify-center transition-colors ${
+            pathname.startsWith("/settings")
+              ? "bg-surface-2 text-txt-main border border-border-strong"
+              : "text-txt-muted hover:text-txt-main hover:bg-surface-2"
+          }`}
         >
           <Settings size={16} />
-        </button>
+        </Link>
 
-        <div
+        <button
           onClick={toggleRole}
           title={`${user.name} (${role}) - Click to toggle role`}
           className="w-8 h-8 rounded-full bg-surface-2 border border-border-strong flex items-center justify-center text-[11px] font-mono-code font-medium text-txt-main cursor-pointer hover:border-txt-main transition-colors mt-1"
         >
           {getInitials(user.name)}
-        </div>
+        </button>
       </div>
     </aside>
   );

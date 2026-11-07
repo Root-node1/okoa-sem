@@ -9,11 +9,16 @@ import {
   Inbox,
   BookOpen,
   CalendarDays,
+  CheckSquare,
+  Sparkles,
+  Clock,
+  FileCheck2,
   Hash,
   Compass,
   ArrowRightLeft,
   GraduationCap,
   Briefcase,
+  Settings,
 } from "lucide-react";
 
 export function SidebarNav() {
@@ -47,7 +52,9 @@ export function SidebarNav() {
           className="h-6 px-1.5 rounded text-[10px] font-mono-code font-medium bg-surface-2 hover:bg-surface-3 text-txt-sub border border-border-subtle flex items-center gap-1 transition-colors"
         >
           <ArrowRightLeft size={10} />
-          <span className="capitalize">{role === "STUDENT" ? "Student" : "Lecturer"}</span>
+          <span className="capitalize">
+            {role === "STUDENT" ? "Student" : "Lecturer"}
+          </span>
         </button>
       </div>
 
@@ -57,7 +64,7 @@ export function SidebarNav() {
         <div>
           <div className="px-2 mb-1.5">
             <span className="text-[10px] font-mono-code font-semibold uppercase tracking-wider text-txt-muted">
-              {isStudent ? "Academic Navigation" : "Faculty Management"}
+              {isStudent ? "Academic Workspace" : "Faculty Coordination"}
             </span>
           </div>
           <div className="space-y-0.5">
@@ -71,26 +78,35 @@ export function SidebarNav() {
               }`}
             >
               <div className="flex items-center gap-2">
-                <LayoutDashboard size={14} className={pathname === "/" ? "text-txt-main" : "text-txt-muted"} />
-                <span>{isStudent ? "Academic Overview" : "Teaching Overview"}</span>
+                <LayoutDashboard
+                  size={14}
+                  className={
+                    pathname === "/" ? "text-txt-main" : "text-txt-muted"
+                  }
+                />
+                <span>
+                  {isStudent ? "Academic Overview" : "Teaching Overview"}
+                </span>
               </div>
             </Link>
 
-            {/* Student: Academic Inbox / Lecturer: Submissions Queue */}
+            {/* Academic Inbox & Claim Verification */}
             <Link
-              href="/reviews"
+              href="/inbox"
               className={`flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                pathname.startsWith("/reviews")
+                pathname.startsWith("/inbox")
                   ? "bg-surface-2 text-txt-main border border-border-subtle"
                   : "text-txt-sub hover:text-txt-main hover:bg-surface-2"
               }`}
             >
               <div className="flex items-center gap-2">
                 <Inbox size={14} className="text-amber" />
-                <span>{isStudent ? "Academic Inbox" : "Submissions Queue"}</span>
+                <span>
+                  {isStudent ? "Academic Inbox" : "Claim Verification"}
+                </span>
               </div>
-              <span className="font-mono-code text-[11px] font-semibold text-txt-sub">
-                {isStudent ? "3 unread" : "13 pending"}
+              <span className="font-mono-code text-[10px] font-semibold px-1.5 py-0.2 rounded bg-amber-surface text-amber">
+                {isStudent ? "3 new" : "2 pending"}
               </span>
             </Link>
 
@@ -107,9 +123,79 @@ export function SidebarNav() {
                 <BookOpen size={14} className="text-txt-muted" />
                 <span>{isStudent ? "My Courses" : "Managed Units"}</span>
               </div>
-              <span className="font-mono-code text-[11px] text-txt-muted">
-                4 units
+              <span className="font-mono-code text-[10px] text-txt-muted">
+                4
               </span>
+            </Link>
+
+            {/* Calendar */}
+            <Link
+              href="/calendar"
+              className={`flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                pathname.startsWith("/calendar")
+                  ? "bg-surface-2 text-txt-main border border-border-subtle"
+                  : "text-txt-sub hover:text-txt-main hover:bg-surface-2"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <CalendarDays size={14} className="text-emerald" />
+                <span>Academic Calendar</span>
+              </div>
+            </Link>
+
+            {/* Assignments & Tasks */}
+            <Link
+              href="/tasks"
+              className={`flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                pathname.startsWith("/tasks")
+                  ? "bg-surface-2 text-txt-main border border-border-subtle"
+                  : "text-txt-sub hover:text-txt-main hover:bg-surface-2"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <CheckSquare size={14} className="text-indigo" />
+                <span>{isStudent ? "My Tasks & Deadlines" : "Assignments"}</span>
+              </div>
+              <span className="font-mono-code text-[10px] text-txt-muted">
+                3 due
+              </span>
+            </Link>
+
+            {/* Lecturer Review / Submissions Triage */}
+            <Link
+              href="/reviews"
+              className={`flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                pathname.startsWith("/reviews")
+                  ? "bg-surface-2 text-txt-main border border-border-subtle"
+                  : "text-txt-sub hover:text-txt-main hover:bg-surface-2"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <FileCheck2 size={14} className="text-txt-muted" />
+                <span>
+                  {isStudent ? "Submission Reviews" : "Submissions Triage"}
+                </span>
+              </div>
+              {!isStudent && (
+                <span className="font-mono-code text-[10px] font-semibold text-txt-sub">
+                  13
+                </span>
+              )}
+            </Link>
+
+            {/* AI Assistant */}
+            <Link
+              href="/assistant"
+              className={`flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                pathname.startsWith("/assistant")
+                  ? "bg-surface-2 text-txt-main border border-border-subtle"
+                  : "text-txt-sub hover:text-txt-main hover:bg-surface-2"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Sparkles size={14} className="text-amber" />
+                <span>Course Assistant</span>
+              </div>
             </Link>
 
             {/* Office Hours / Consultations */}
@@ -122,8 +208,8 @@ export function SidebarNav() {
               }`}
             >
               <div className="flex items-center gap-2">
-                <CalendarDays size={14} className="text-indigo" />
-                <span>Office Hours & Consults</span>
+                <Clock size={14} className="text-txt-muted" />
+                <span>Office Hours</span>
               </div>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald" />
             </Link>
@@ -175,14 +261,28 @@ export function SidebarNav() {
           </div>
         </div>
 
-        {/* Institutional Resources */}
+        {/* Institutional Resources & Settings */}
         <div>
           <div className="px-2 mb-1.5">
             <span className="text-[10px] font-mono-code font-semibold uppercase tracking-wider text-txt-muted">
-              Verified Resources
+              Account & Hub
             </span>
           </div>
           <div className="space-y-0.5">
+            <Link
+              href="/settings"
+              className={`flex items-center justify-between px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                pathname.startsWith("/settings")
+                  ? "bg-surface-2 text-txt-main border border-border-subtle"
+                  : "text-txt-sub hover:text-txt-main hover:bg-surface-2"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Settings size={14} className="text-txt-muted" />
+                <span>Preferences & Settings</span>
+              </div>
+            </Link>
+
             <a
               href="https://mcs-all.vercel.app"
               target="_blank"
