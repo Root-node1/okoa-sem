@@ -1,34 +1,24 @@
-# Documentation Index — Okoa Sem
+# Okoa Sem Documentation
 
-Status: Proposed
+## Authoritative documents
 
-## Core
+- [System design](./system_design.md) — product, architecture, domain modules, lifecycle, entities, API, security, status.
+- [Student API contracts](./student-api-contracts.md) — proposed student-facing API contracts.
+- [Source and extraction contracts](./source-extraction-contracts.md) — proposed source, claim and extraction contracts.
+- [Frontend API contracts](./frontend-api-contracts.md) — proposed frontend integration contracts.
+- [Authorization boundaries](./authorization-boundaries.md) — proposed authorization model.
+- [Integration test strategy](./integration-test-strategy.md) — proposed testing strategy.
+- [Developer tickets](./tickets/README.md) — ticket index, ownership, workflow, dependencies.
 
-- [System Design](./SYSTEM_DESIGN.md)
-- [Architecture Decisions](./ARCHITECTURE_DECISIONS.md)
-- [Design](./DESIGN.md)
-- [Data Model](./DATA_MODEL.md)
-- [API Design](./API_DESIGN.md)
-- [AI Architecture](./AI_ARCHITECTURE.md)
-- [Agent Design](./AGENT_DESIGN.md)
-- [Academic Information Lifecycle](./ACADEMIC_INFORMATION_LIFECYCLE.md)
+## Implementation status legend
 
-## Security & Quality
+- **IMPLEMENTED**: exists in code and verified.
+- **APPROVED**: agreed but not coded.
+- **PROPOSED**: candidate requiring a decision.
+- **NOT YET IMPLEMENTED**: planned but not started.
 
-- [Security](./SECURITY.md)
-- [Privacy and Data Governance](./PRIVACY_AND_DATA_GOVERNANCE.md)
-- [Testing Strategy](./TESTING_STRATEGY.md)
+## Retained assets
 
-## Execution
-
-- [Implementation](./IMPLEMENTATION.md)
-- [Implementation Tasks](./IMPLEMENTATION_TASKS.md)
-- [Team Workflow](./TEAM_WORKFLOW.md)
-- [Development Guidelines](./DEVELOPMENT_GUIDELINES.md)
-- [Deployment](./DEPLOYMENT.md)
-- [Project Roadmap](./PROJECT_ROADMAP.md)
-- [Risks and Assumptions](./RISKS_AND_ASSUMPTIONS.md)
-- [Glossary](./GLOSSARY.md)
-- [Integration Contracts](./INTEGRATION_CONTRACTS.md)
-- [Open Questions](./OPEN_QUESTIONS.md)
-- [Documentation Status](./DOCUMENTATION_STATUS.md)
+- PostgreSQL migrations: `backend/migrations/`
+- Postman collection: `docs/postman/`
+- CI workflow: `.github/workflows/ci.yml`
