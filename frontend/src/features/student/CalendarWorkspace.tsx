@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { Icon } from '@/components/ui/Icon'
 import { StatusBadge } from '@/components/student/StatusBadge'
 import { events, formatDate } from './demo-data'
 import type { AcademicEvent } from './types'

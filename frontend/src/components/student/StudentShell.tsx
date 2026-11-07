@@ -72,11 +72,6 @@ export function StudentShell({ children }: { children: ReactNode }) {
           </button>
           <div className="breadcrumb"><span>Student space</span><Icon name="chevron" /><strong>{getPageName(pathname)}</strong></div>
           <div className="topbar-actions">
-            <label className="search-box">
-              <Icon name="search" />
-              <input aria-label="Search courses and events" placeholder="Search anything..." />
-              <kbd>⌘ K</kbd>
-            </label>
             <Link aria-label="Open inbox, 3 unread" className="icon-button notification-button" href="/inbox">
               <Icon name="bell" /><span className="notification-dot" />
             </Link>
