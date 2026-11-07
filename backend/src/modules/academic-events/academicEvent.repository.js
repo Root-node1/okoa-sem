@@ -49,3 +49,9 @@ export async function supersedeAcademicEvent(id, newEventId) {
   )
   return rows[0] ?? null
 }
+
+
+export async function findAcademicEventBySourceClaimId(sourceClaimId) {
+  const { rows } = await pool.query(`SELECT * FROM academic_events WHERE source_claim_id = $1 ORDER BY version DESC LIMIT 1`, [sourceClaimId])
+  return rows[0] ?? null
+}
