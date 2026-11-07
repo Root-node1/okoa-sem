@@ -2,24 +2,36 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuthRole } from "@/hooks/use-auth-role";
 import {
+  LayoutDashboard,
   BookOpen,
-  CheckCircle2,
+  Inbox,
   CalendarDays,
-  MessageSquare,
   Settings,
   Flame,
+  ArrowRightLeft,
 } from "lucide-react";
 
 export function IconRail() {
   const pathname = usePathname();
+  const { user, role, toggleRole, isStudent } = useAuthRole();
 
   const navItems = [
-    { href: "/units/sma-2104", icon: BookOpen, label: "Units & Courses" },
-    { href: "/reviews", icon: CheckCircle2, label: "Triage & Grading" },
+    { href: "/", icon: LayoutDashboard, label: isStudent ? "Academic Overview" : "Teaching Overview" },
+    { href: "/units", icon: BookOpen, label: isStudent ? "My Courses" : "Managed Units" },
+    { href: "/reviews", icon: Inbox, label: isStudent ? "Academic Inbox" : "Submissions Queue" },
     { href: "/consultations", icon: CalendarDays, label: "Office Hours" },
-    { href: "/threads", icon: MessageSquare, label: "Discussions" },
   ];
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+  };
 
   return (
     <aside className="w-16 h-full flex-shrink-0 bg-surface-1 border-r border-border-subtle flex flex-col items-center justify-between py-3.5 z-30 select-none">
@@ -29,7 +41,7 @@ export function IconRail() {
         <Link
           href="/"
           className="h-10 w-10 rounded-lg bg-surface-2 border border-border-strong flex items-center justify-center font-serif-display font-semibold text-lg text-txt-main hover:bg-surface-3 transition-colors"
-          title="MCS Portal"
+          title="MCS Coordination Platform"
         >
           N
         </Link>
@@ -38,7 +50,10 @@ export function IconRail() {
         <nav className="flex flex-col gap-1.5 w-full px-2">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname.startsWith(item.href);
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.href);
 
             return (
               <Link
@@ -64,6 +79,14 @@ export function IconRail() {
       {/* Bottom Shortcuts */}
       <div className="flex flex-col items-center gap-2.5 w-full px-2">
         <button
+          onClick={toggleRole}
+          title={`Switch role (Currently: ${role})`}
+          className="h-9 w-9 rounded-md flex items-center justify-center text-txt-muted hover:text-txt-main hover:bg-surface-2 transition-colors"
+        >
+          <ArrowRightLeft size={16} />
+        </button>
+
+        <button
           title="Active Semester Sprint"
           className="h-9 w-9 rounded-md flex items-center justify-center text-amber hover:bg-surface-2 transition-colors"
         >
@@ -77,8 +100,12 @@ export function IconRail() {
           <Settings size={16} />
         </button>
 
-        <div className="w-8 h-8 rounded-full bg-surface-2 border border-border-strong flex items-center justify-center text-[11px] font-mono-code font-medium text-txt-main cursor-pointer hover:border-txt-main transition-colors mt-1">
-          RC
+        <div
+          onClick={toggleRole}
+          title={`${user.name} (${role}) - Click to toggle role`}
+          className="w-8 h-8 rounded-full bg-surface-2 border border-border-strong flex items-center justify-center text-[11px] font-mono-code font-medium text-txt-main cursor-pointer hover:border-txt-main transition-colors mt-1"
+        >
+          {getInitials(user.name)}
         </div>
       </div>
     </aside>
