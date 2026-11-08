@@ -41,6 +41,10 @@ export async function getClaim(claimId, user) {
   return claim
 }
 
+export async function listClaims(filters = {}) {
+  return claimsRepo.listClaims(filters)
+}
+
 export async function approveClaim(claimId, user, corrections = {}, meta = {}) {
   const claim = await loadClaim(claimId)
   const workspaceId = await authorizeClaim(claim, user)
@@ -71,7 +75,7 @@ export async function approveClaim(claimId, user, corrections = {}, meta = {}) {
     eventType: updatedClaim.claim_type,
     title: updatedClaim.title,
     description: updatedClaim.description,
-    startAt: updatedClaim.start_at,
+    startAt: updatedClaim.start_at ?? new Date(),
     endAt: updatedClaim.end_at,
     venue: updatedClaim.venue,
     status: 'verified',

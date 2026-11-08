@@ -118,6 +118,7 @@ export async function runExtraction(sourceId, opts = {}) {
       claimType: claim.type,
       title: claim.title,
       description: claim.description ?? null,
+      courseId: source.course_id ?? null,
       courseHint: claim.courseHint ?? null,
       startAt: dates[0] ?? null,
       endAt: dates[1] ?? null,

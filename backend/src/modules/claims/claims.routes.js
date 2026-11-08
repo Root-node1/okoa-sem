@@ -6,6 +6,7 @@ import { approveClaimSchema, rejectClaimSchema, clarificationSchema, correctionS
 
 const router = express.Router()
 
+router.get('/', controller.listClaims)
 router.get('/:id', requireAuth, controller.getClaim)
 router.post('/:id/approve', requireAuth, validate(approveClaimSchema), controller.approveClaim)
 router.post('/:id/reject', requireAuth, validate(rejectClaimSchema), controller.rejectClaim)

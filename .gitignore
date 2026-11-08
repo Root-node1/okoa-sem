@@ -20,3 +20,4 @@ tmp/
 .vercel/
 .wrangler/
 .next/
+next-env.d.ts
