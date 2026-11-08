@@ -7,8 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "dev:frontend": "next dev",
+    "build:frontend": "next build",
     "dev:backend": "npm --prefix backend run dev",
-    "test:backend": "npm --prefix backend test"
+    "test:backend": "npm --prefix backend test",
+    "migrate:backend": "npm --prefix backend run migrate",
+    "seed:backend": "npm --prefix backend run seed"
   },
   "dependencies": {
     "clsx": "^2.1.1",

@@ -41,8 +41,14 @@ export async function getClaim(claimId, user) {
   return claim
 }
 
+export async function listClaims(filters = {}) {
+  return claimsRepo.listClaims(filters)
+}
+
 export async function approveClaim(claimId, user, corrections = {}, meta = {}) {
   const claim = await loadClaim(claimId)
+  const workspaceId = await authorizeClaim(claim, user)
+
   if (claim.status === 'approved') {
     const existing = await eventsRepo.findAcademicEventBySourceClaimId(claim.id)
     return { claim, event: existing }
@@ -50,8 +56,15 @@ export async function approveClaim(claimId, user, corrections = {}, meta = {}) {
   if (claim.status !== 'pending') {
     throw httpError(409, 'CLAIM_NOT_PENDING', 'Only pending claims can be approved')
   }
+  if (corrections?.courseId) {
+    const correctedWorkspaceId = await getCourseWorkspaceId(corrections.courseId)
+    if (!correctedWorkspaceId || correctedWorkspaceId !== workspaceId) {
+      throw httpError(400, 'INVALID_COURSE', 'Corrected course must belong to the same workspace')
+    }
+    const courseAllowed = await hasCourseAccess(user, corrections.courseId, ['lecturer'])
+    if (!courseAllowed) throw httpError(403, 'FORBIDDEN', 'Insufficient course permissions')
+  }
 
-  const workspaceId = await authorizeClaim(claim, user)
   const updatedClaim = Object.keys(corrections).length > 0
     ? await claimsRepo.updateClaimFields(claim.id, corrections)
     : claim
@@ -62,7 +75,7 @@ export async function approveClaim(claimId, user, corrections = {}, meta = {}) {
     eventType: updatedClaim.claim_type,
     title: updatedClaim.title,
     description: updatedClaim.description,
-    startAt: updatedClaim.start_at,
+    startAt: updatedClaim.start_at ?? new Date(),
     endAt: updatedClaim.end_at,
     venue: updatedClaim.venue,
     status: 'verified',
@@ -134,7 +147,15 @@ export async function correctClaim(claimId, user, fields = {}, meta = {}) {
   if (claim.status !== 'pending') {
     throw httpError(409, 'CLAIM_NOT_PENDING', 'Only pending claims can be corrected')
   }
-  await authorizeClaim(claim, user)
+  const workspaceId = await authorizeClaim(claim, user)
+  if (fields?.courseId) {
+    const correctedWorkspaceId = await getCourseWorkspaceId(fields.courseId)
+    if (!correctedWorkspaceId || correctedWorkspaceId !== workspaceId) {
+      throw httpError(400, 'INVALID_COURSE', 'Corrected course must belong to the same workspace')
+    }
+    const courseAllowed = await hasCourseAccess(user, fields.courseId, ['lecturer'])
+    if (!courseAllowed) throw httpError(403, 'FORBIDDEN', 'Insufficient course permissions')
+  }
   const updated = await claimsRepo.updateClaimFields(claim.id, fields)
   await recordAudit({
     actorId: user.id,

@@ -10,15 +10,30 @@ import { validateEnv } from './config/env.js'
 import healthRoutes from './routes/health.js'
 import authRoutes from './modules/auth/auth.routes.js'
 import claimsRoutes from './modules/claims/claims.routes.js'
+import sourcesRoutes from './modules/sources/sources.routes.js'
+import academicEventsRoutes from './modules/academic-events/academicEvents.routes.js'
+import coursesRoutes from './modules/courses/courses.routes.js'
 
 validateEnv()
 
 const app = express()
 
+const allowedOrigins = new Set([
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://localhost:5173',
+  ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map((s) => s.trim()) : []),
+])
+
 app.use(helmet())
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL ?? 'http://localhost:5173',
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.has(origin)) {
+        return callback(null, true)
+      }
+      return callback(null, false)
+    },
     credentials: true,
   }),
 )
@@ -31,6 +46,9 @@ app.use(authenticate)
 app.use('/api/v1', healthRoutes)
 app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/claims', claimsRoutes)
+app.use('/api/v1/sources', sourcesRoutes)
+app.use('/api/v1/events', academicEventsRoutes)
+app.use('/api/v1/courses', coursesRoutes)
 
 app.use((_req, res) => {
   res.status(404).json({ error: { code: 'NOT_FOUND', message: 'Route not found' } })

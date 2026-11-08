@@ -2,10 +2,9 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-FRONTEND_DIR="$ROOT_DIR/frontend"
 BACKEND_DIR="$ROOT_DIR/backend"
 
-FRONTEND_PORT="${FRONTEND_PORT:-5173}"
+FRONTEND_PORT="${FRONTEND_PORT:-3000}"
 BACKEND_PORT="${BACKEND_PORT:-5000}"
 
 check_cmd() {
@@ -22,18 +21,14 @@ if ! check_cmd npm; then
   exit 1
 fi
 
-if [ ! -d "$FRONTEND_DIR/node_modules" ] || [ ! -d "$BACKEND_DIR/node_modules" ] || [ ! -d "$ROOT_DIR/node_modules" ]; then
+if [ ! -d "$BACKEND_DIR/node_modules" ] || [ ! -d "$ROOT_DIR/node_modules" ]; then
   echo "Dependencies are not installed."
-  echo "Run: npm install && npm --prefix frontend install && npm --prefix backend install"
+  echo "Run: pnpm install && npm --prefix backend install"
   exit 1
 fi
 
 if [ ! -f "$BACKEND_DIR/.env" ]; then
   echo "Warning: backend/.env not found. Copy backend/.env.example to backend/.env and configure it."
-fi
-
-if [ ! -f "$FRONTEND_DIR/.env" ]; then
-  echo "Warning: frontend/.env not found. Copy frontend/.env.example to frontend/.env."
 fi
 
 BACKEND_PID=""
@@ -66,10 +61,10 @@ BACKEND_PID=$!
 # Give backend a moment to start
 sleep 2
 
-echo "Starting frontend on http://localhost:${FRONTEND_PORT} ..."
+echo "Starting Next.js frontend on http://localhost:${FRONTEND_PORT} ..."
 (
-  cd "$FRONTEND_DIR"
-  npm run dev -- --port "$FRONTEND_PORT"
+  cd "$ROOT_DIR"
+  npx next dev --port "$FRONTEND_PORT"
 ) &
 FRONTEND_PID=$!
 

@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useAuthRole } from "@/hooks/use-auth-role";
+import { backendApi } from "@/lib/api/client";
+import type { BackendClaim } from "@/types/api";
 import {
   MOCK_CLAIMS,
   MOCK_NOTIFICATIONS,
@@ -22,6 +24,45 @@ import {
 
 type InboxTab = "updates" | "claims" | "submit";
 
+function mapBackendClaimToUi(bc: BackendClaim): Claim {
+  const statusMap: Record<BackendClaim["status"], ClaimStatus> = {
+    approved: "Verified",
+    pending: "Pending review",
+    rejected: "Needs attention",
+    failed: "Needs attention",
+    merged: "Verified",
+  };
+  const code = bc.course_code || bc.course_hint || "SMA 2104";
+  const matchedUnit =
+    MOCK_UNITS.find((u) => u.code.toUpperCase() === code.toUpperCase()) ||
+    MOCK_UNITS[0];
+  const rawConf =
+    bc.confidence !== null && bc.confidence !== undefined
+      ? Number(bc.confidence)
+      : 0.88;
+  const confidencePct =
+    rawConf <= 1 ? Math.round(rawConf * 100) : Math.round(rawConf);
+
+  return {
+    id: bc.id,
+    unitId: matchedUnit.id,
+    courseCode: matchedUnit.code,
+    title: bc.title,
+    source: bc.submitted_by_name
+      ? `${bc.submitted_by_name} (${bc.submitted_by_role ?? "Course Member"})`
+      : "AI Extraction Pipeline",
+    submittedAt: bc.extracted_at
+      ? new Date(bc.extracted_at).toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+        })
+      : "Recent",
+    status: statusMap[bc.status] ?? "Pending review",
+    confidence: confidencePct,
+    evidence: `“${bc.evidence_snippet}”`,
+  };
+}
+
 export default function InboxPage() {
   const { isStudent, isLecturer } = useAuthRole();
   const [tab, setTab] = useState<InboxTab>("updates");
@@ -32,6 +73,27 @@ export default function InboxPage() {
   const [claimTitle, setClaimTitle] = useState("");
   const [messageText, setMessageText] = useState("");
   const [feedbackNotice, setFeedbackNotice] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    backendApi
+      .listClaims()
+      .then((backendClaims) => {
+        if (!active || !backendClaims.length) return;
+        const mapped = backendClaims.map(mapBackendClaimToUi);
+        setClaims((prev) => {
+          const existingIds = new Set(mapped.map((m) => m.id));
+          return [...mapped, ...prev.filter((p) => !existingIds.has(p.id))];
+        });
+      })
+      .catch(() => {
+        // Hybrid fallback: keep local MOCK_CLAIMS when backend is offline
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   function handleMarkAllRead() {
     setNotifications((prev) =>
@@ -39,39 +101,84 @@ export default function InboxPage() {
     );
   }
 
-  function handleVerifyClaim(id: string, nextStatus: ClaimStatus) {
+  async function handleVerifyClaim(id: string, nextStatus: ClaimStatus) {
     setClaims((prev) =>
       prev.map((c) => (c.id === id ? { ...c, status: nextStatus } : c))
     );
+    try {
+      if (nextStatus === "Verified") {
+        await backendApi.approveClaim(id);
+        setFeedbackNotice(
+          "Claim approved and published as a verified academic event."
+        );
+      } else if (nextStatus === "Needs attention") {
+        await backendApi.rejectClaim(id, "Flagged during lecturer review");
+        setFeedbackNotice("Claim flagged for discrepancy review.");
+      }
+    } catch {
+      // Local state already updated for responsive UI
+    }
   }
 
-  function handleSubmitUpdate(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmitUpdate(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!messageText.trim()) return;
 
+    setIsSubmitting(true);
     const unit =
       MOCK_UNITS.find((u) => u.code === selectedCourse) || MOCK_UNITS[0];
-    const newClaim: Claim = {
-      id: `clm-${Date.now()}`,
-      unitId: unit.id,
-      courseCode: unit.code,
-      title: claimTitle.trim() || "Submitted Course Update",
-      source: isLecturer
-        ? "Official Lecturer Announcement"
-        : "Student / Class Rep Submission",
-      submittedAt: "Just now",
-      status: isLecturer ? "Verified" : "Pending review",
-      confidence: isLecturer ? 100 : 88,
-      evidence: `“${messageText.trim()}”`,
-    };
 
-    setClaims((prev) => [newClaim, ...prev]);
+    try {
+      const res = await backendApi.submitSource({
+        courseCode: unit.code,
+        title: claimTitle.trim() || undefined,
+        text: messageText.trim(),
+        sourceType: "whatsapp_export",
+      });
+      if (res.extraction?.claims?.length) {
+        const extractedUiClaims = res.extraction.claims.map(mapBackendClaimToUi);
+        setClaims((prev) => [...extractedUiClaims, ...prev]);
+      } else {
+        const fallbackClaim: Claim = {
+          id: res.source?.id || `clm-${Date.now()}`,
+          unitId: unit.id,
+          courseCode: unit.code,
+          title: claimTitle.trim() || "Submitted Course Update",
+          source: isLecturer
+            ? "Official Lecturer Announcement"
+            : "Student / Class Rep Submission",
+          submittedAt: "Just now",
+          status: isLecturer ? "Verified" : "Pending review",
+          confidence: isLecturer ? 100 : 88,
+          evidence: `“${messageText.trim()}”`,
+        };
+        setClaims((prev) => [fallbackClaim, ...prev]);
+      }
+    } catch {
+      const newClaim: Claim = {
+        id: `clm-${Date.now()}`,
+        unitId: unit.id,
+        courseCode: unit.code,
+        title: claimTitle.trim() || "Submitted Course Update",
+        source: isLecturer
+          ? "Official Lecturer Announcement"
+          : "Student / Class Rep Submission",
+        submittedAt: "Just now",
+        status: isLecturer ? "Verified" : "Pending review",
+        confidence: isLecturer ? 100 : 88,
+        evidence: `“${messageText.trim()}”`,
+      };
+      setClaims((prev) => [newClaim, ...prev]);
+    } finally {
+      setIsSubmitting(false);
+    }
+
     setClaimTitle("");
     setMessageText("");
     setFeedbackNotice(
       isLecturer
         ? "Published as a verified official course update."
-        : "Submitted to the course verification queue. It will appear as confirmed once verified by course staff."
+        : "Submitted to the AI extraction & verification queue. It will appear as confirmed once verified by course staff."
     );
     setTab("claims");
   }
@@ -520,10 +627,12 @@ export default function InboxPage() {
 
                   <button
                     type="submit"
-                    disabled={!messageText.trim()}
+                    disabled={!messageText.trim() || isSubmitting}
                     className="h-8 px-4 rounded text-xs font-medium bg-txt-main text-canvas hover:opacity-90 disabled:opacity-40 transition-opacity"
                   >
-                    {isLecturer
+                    {isSubmitting
+                      ? "Extracting & Submitting..."
+                      : isLecturer
                       ? "Publish Verified Update"
                       : "Submit for Verification"}
                   </button>

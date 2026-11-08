@@ -145,3 +145,26 @@ test('student cannot approve a claim', async () => {
   const res = await request(app).post(`/api/v1/claims/${claim.rows[0].id}/approve`).set('Cookie', cookie).send({})
   assert.equal(res.status, 403)
 })
+
+test('approved claim approval remains authorization-protected', async () => {
+  const seeded = await seedLecturer()
+  await request(app).post(`/api/v1/claims/${seeded.claimId}/approve`).set('Cookie', seeded.cookie).send({})
+
+  await request(app).post('/api/v1/auth/register').send({
+    fullName: 'Student Three',
+    email: 'student3@example.com',
+    password: 'StrongPass1',
+  })
+  const login = await request(app).post('/api/v1/auth/login').send({
+    email: 'student3@example.com',
+    password: 'StrongPass1',
+  })
+  const studentCookie = login.headers['set-cookie'][0]
+
+  const res = await request(app)
+    .post(`/api/v1/claims/${seeded.claimId}/approve`)
+    .set('Cookie', studentCookie)
+    .send({})
+
+  assert.equal(res.status, 403)
+})

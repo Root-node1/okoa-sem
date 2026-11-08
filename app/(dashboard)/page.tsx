@@ -1,7 +1,10 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuthRole } from "@/hooks/use-auth-role";
+import { backendApi } from "@/lib/api/client";
+import type { BackendAcademicEvent } from "@/types/api";
 import { MOCK_UNITS } from "@/data/mock-units";
 import {
   CalendarDays,
@@ -16,6 +19,24 @@ import {
 
 export default function DashboardOverviewPage() {
   const { user, toggleRole, isStudent } = useAuthRole();
+  const [liveEvents, setLiveEvents] = useState<BackendAcademicEvent[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    backendApi
+      .listEvents()
+      .then((events) => {
+        if (active && events.length > 0) {
+          setLiveEvents(events.slice(0, 3));
+        }
+      })
+      .catch(() => {
+        // Hybrid fallback when backend is offline
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   return (
     <div className="flex-1 flex flex-col h-full bg-surface-1 select-none overflow-hidden">
@@ -157,6 +178,40 @@ export default function DashboardOverviewPage() {
                 </div>
 
                 <div className="divide-y divide-border-subtle">
+                  {liveEvents.map((ev) => (
+                    <div key={ev.id} className="p-3.5 space-y-1.5 bg-emerald-surface/20">
+                      <div className="flex items-center justify-between text-[11px]">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono-code text-[10px] font-semibold bg-surface-2 px-1.5 py-0.5 rounded text-txt-main">
+                            {ev.course_code || "COURSE"}
+                          </span>
+                          <span className="font-semibold text-xs text-txt-main">
+                            {ev.title}
+                          </span>
+                        </div>
+                        <span className="h-4 px-1.5 rounded text-[9px] font-mono-code font-semibold bg-emerald-surface text-emerald">
+                          Official • Verified
+                        </span>
+                      </div>
+                      {ev.description && (
+                        <p className="text-xs text-txt-sub leading-relaxed">
+                          {ev.description}
+                        </p>
+                      )}
+                      <div className="flex items-center justify-between pt-1 text-[10px] font-mono-code text-txt-muted">
+                        <span>
+                          Source: {ev.verified_by_name || "Verified Course Lecturer"}
+                        </span>
+                        <span>
+                          {ev.venue ? `${ev.venue} • ` : ""}
+                          {new Date(ev.start_at).toLocaleDateString("en-GB", {
+                            day: "numeric",
+                            month: "short",
+                          })}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                   <div className="p-3.5 space-y-1.5">
                     <div className="flex items-center justify-between text-[11px]">
                       <div className="flex items-center gap-2">

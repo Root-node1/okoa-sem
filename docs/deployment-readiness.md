@@ -55,6 +55,8 @@ Owner: Developer D
 ## Cloudflare Workers Builds (frontend)
 
 - Root directory: `frontend`
+- Package manager: npm (do not use pnpm)
+- Install command: `npm ci`
 - Build command: `npm run build`
 - Deploy command: `npx wrangler deploy`
 - Preview command: `npx wrangler versions upload` (creates a preview version; requires Cloudflare authentication)
@@ -62,6 +64,8 @@ Owner: Developer D
 - Wrangler configuration: `frontend/wrangler.jsonc`
 - Worker name: `okoa-sem`
 - Compatibility date: `2026-11-07`
+
+The frontend build root is `frontend/`. It contains `package-lock.json`; Cloudflare must not run from the repository root, where pnpm metadata previously caused pnpm to be selected.
 
 Required Cloudflare build environment variables:
 - `VITE_API_URL` — production backend API base URL ending in `/api/v1`.

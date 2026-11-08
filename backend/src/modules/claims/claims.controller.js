@@ -4,6 +4,18 @@ function meta(req) {
   return { ipAddress: req.ip, userAgent: req.get('user-agent') }
 }
 
+export async function listClaims(req, res, next) {
+  try {
+    const claims = await service.listClaims({
+      status: req.query.status ?? null,
+      courseId: req.query.courseId ?? null,
+    })
+    res.json({ data: claims })
+  } catch (err) {
+    next(err)
+  }
+}
+
 export async function getClaim(req, res, next) {
   try {
     const claim = await service.getClaim(req.params.id, req.user)
